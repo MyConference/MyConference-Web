@@ -1,9 +1,33 @@
+<!DOCTYPE html>
+
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="/css/index.css" media="screen" />
+	<script type="text/javascript" src="/js/script.js"></script>
     <title>My Conference Web</title>
 </head>
 
 <body>
+	<h1>My Conference Web</h1>
+	<div>
+		<input type="text" size="25" placeholder="email">
+		<input type="text" size="25" placeholder="password">
+		<button type="button" id="login-button" >Login</button>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    	<script type="text/javascript">
+	    $(document).ready(function() {
+	        $('#login-button').click(function() {
+	            alert("Login!");
+	        });
+    	});
+    	</script>
+	</div>
 
+	<div>
+		<input type="text" size="25" placeholder="email">
+		<input type="text" size="25" placeholder="password">
+		<input type="text" size="25" placeholder="repeat password">
+		<button type="button" id="signup-button" >Sign Up</button>
+	</div>
 </body>
 </html>
