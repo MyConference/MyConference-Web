@@ -9,25 +9,24 @@
 
 <body>
 	<h1>My Conference Web</h1>
+
+	<!--LOGIN-->
 	<div>
-		<input type="text" size="25" placeholder="email">
-		<input type="text" size="25" placeholder="password">
-		<button type="button" id="login-button" >Login</button>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    	<script type="text/javascript">
-	    $(document).ready(function() {
-	        $('#login-button').click(function() {
-	            alert("Login!");
-	        });
-    	});
-    	</script>
+		<form action="/login" method="post">
+			<input type="text" size="25" placeholder="email"/>
+			<input type="text" size="25" placeholder="password"/>
+			<input type="submit" id="login-button" value="Login"/>
+		</form>
 	</div>
 
+	<!--SIGNUP-->
 	<div>
-		<input type="text" size="25" placeholder="email">
-		<input type="text" size="25" placeholder="password">
-		<input type="text" size="25" placeholder="repeat password">
-		<button type="button" id="signup-button" >Sign Up</button>
+		<form action="/signup" method="post">
+			<input type="text" size="25" placeholder="email"/>
+			<input type="text" size="25" placeholder="password"/>
+			<input type="text" size="25" placeholder="repeat password"/>
+			<input type="submit" id="signup-button" value="Sign up"/>
+		</form>
 	</div>
 </body>
 </html>
