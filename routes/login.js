@@ -16,7 +16,7 @@ app.post('/', function(req, res){
 	}, function(err, areq, ares, obj){
 		console.log('ERROR: %s', err);
 		console.dir(obj);
-		res.end();
+		res.redirect('/');
 	});
 });
 
