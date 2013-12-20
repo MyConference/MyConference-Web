@@ -5,9 +5,9 @@ var app = express();
 
 app.post('/', function(req, res){
 	console.log('LOGIN');
-	client.post('/v0.1/auth', {
+	client.post('/auth', {
 		'application_id' : '997adc41-9e79-4c32-9928-c58129443546',
-		'client_id' : 'pene',
+		'client_id' : 'id',
 		'credentials' : {
 			'type' : 'password',
 			'email' : 'p.morgado@ucm.es',
