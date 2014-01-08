@@ -6,8 +6,11 @@ app.use(express.logger('dev'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('view engine', 'jade');
+app.set('views', __dirname + '/views');
+
 app.get('/', function(req, res) {
-   res.sendfile('./views/index.html');
+   res.render('index');
 });
 
 app.use('/login', require('./routes/login.js'));
