@@ -1,7 +1,7 @@
 var restify = require('restify');
 
 var client = restify.createJsonClient({
-	'url' : 'http://raspi.darkhogg.es:4321',
+	'url' : 'http://myconf-api-dev.herokuapp.com',
 	'version' : '*'
 });
 

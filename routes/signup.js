@@ -6,7 +6,7 @@ var app = express();
 app.post('/', function(req, res){
 	console.log('SIGNUP');
 	client.post('/auth/signup', {
-		'application_id' : '997adc41-9e79-4c32-9928-c58129443546',
+		'application_id' : 'b5eb92ea-9b39-4e76-8f85-5742d36d4bab',
 		'client_id' : 'id',
 		'user_data' : {
 			'email' : 'p.morgado@ucm.es',
