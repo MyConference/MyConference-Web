@@ -1,19 +1,21 @@
 var express = require('express');
 var client = require('../client.js');
 
+var config = require('../config.js');
+
 var app = express();
 
-app.post('/', function(req, res){
+app.post('/', function (req, res){
 	console.log('LOGIN');
 	client.post('/auth', {
-		'application_id' : 'b5eb92ea-9b39-4e76-8f85-5742d36d4bab',
+		'application_id' : config.application,
 		'client_id' : 'id',
 		'credentials' : {
 			'type' : 'password',
-			'email' : 'p.morgado@ucm.es',
-			'password' : 'myconference'
+			'email' : req.body.email,
+			'password' : req.body.password
 		}
-	}, function(err, areq, ares, obj){
+	}, function (err, areq, ares, obj){
 		console.log('ERROR: %s', err);
 		console.dir(obj);
 		res.redirect('/');
