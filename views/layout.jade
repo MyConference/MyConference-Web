@@ -1,0 +1,20 @@
+doctype html
+html
+	head
+		title My Conference
+
+		link(rel="stylesheet" type="text/css" href="/css/bootstrap.css")
+		link(rel="stylesheet" type="text/css" href="/css/styles.css")
+
+		script(type="text/javascript" src="//code.jquery.com/jquery.js")
+		script(type="text/javascript" src="/js/bootstrap.js")
+
+	body
+		nav.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation")
+			.container
+				p.navbar-text.navbar-left My Conference
+				a.btn.navbar-btn.navbar-right(href="/login") Login
+				a.btn.navbar-btn.navbar-right(href="/signup") Sign up
+
+		.container
+			block contents

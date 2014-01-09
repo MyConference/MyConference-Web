@@ -1,0 +1,8 @@
+extends layout
+
+block contents
+	form(action="/signup" method="post")
+		input(name="email" type="email" size="25" placeholder="email")
+		input(name="password" type="password" size="25" placeholder="password")
+		input(name="repeat_password" type="password" size="25" placeholder="repeat password")
+		input(type="submit" value="Sign up")
