@@ -31,7 +31,16 @@ app.post('/login', function (req, res){
 	}, function (err, areq, ares, obj){
 		console.log('ERROR: %s', err);
 		console.dir(obj);
-		res.redirect('/dashboard');
+		if (err) {
+			if (err.code == "invalid_email_or_password"){
+				req.flash('error', 'Wrong email or password');
+			} else {
+				req.flass('error', 'Unknown login error (' + err.code + ')')
+			}
+			res.redirect('/login');
+		} else {
+			res.redirect('/dashboard');
+		}
 	});
 });
 

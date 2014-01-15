@@ -5,3 +5,8 @@ block contents
 		input(name="email" type="email" size="25" placeholder="email")
 		input(name="password" type="password" size="25" placeholder="password")
 		input(type="submit" value="Login")
+
+		for message in flash('error')
+			div.alert.alert-danger.alert-dismissable
+				button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
+				!= message

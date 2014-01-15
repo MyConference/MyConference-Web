@@ -1,7 +1,7 @@
-var restify = require('restify');
+var restify = require('restify'), config = require('./config.js');
 
 var client = restify.createJsonClient({
-	'url' : 'http://myconf-api-dev.herokuapp.com',
+	'url' : config.apiUrl,
 	'version' : '*'
 });
 
