@@ -32,10 +32,10 @@ app.post('/login', function (req, res){
 		console.log('ERROR: %s', err);
 		console.dir(obj);
 		if (err) {
-			if (err.code == "invalid_email_or_password"){
+			if (obj.code == "invalid_email_or_password"){
 				req.flash('error', 'Wrong email or password');
 			} else {
-				req.flass('error', 'Unknown login error (' + err.code + ')')
+				req.flash('error', 'Unknown login error (' + obj.code + ')')
 			}
 			res.redirect('/login');
 		} else {

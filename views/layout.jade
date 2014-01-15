@@ -19,4 +19,9 @@ html
 				a.btn.navbar-btn.navbar-right(href="/signup") Sign up
 
 		.container
+			for message in flash('error')
+				div.alert.alert-danger.alert-dismissable
+					button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
+					!= message
+
 			block contents
