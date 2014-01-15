@@ -53,18 +53,35 @@ app.get('/signup', function(req, res) {
 
 app.post('/signup', function (req, res){
 	console.log('SIGNUP');
-	client.post('/auth/signup', {
-		'application_id' : config.application,
-		'client_id' : 'id',
-		'user_data' : {
-			'email' : req.body.email,
-			'password' : req.body.password
-		}
-	}, function (err, areq, ares, obj){
-		console.log('ERROR: %s', err);
-		console.dir(obj);
-		res.redirect('/dashboard');
-	});
+	if(req.body.password == req.body.repeat_password){
+		client.post('/auth/signup', {
+			'application_id' : config.application,
+			'client_id' : 'id',
+			'user_data' : {
+				'email' : req.body.email,
+				'password' : req.body.password
+			}
+		}, function (err, areq, ares, obj){
+			console.log('ERROR: %s', err);
+			console.dir(obj);
+			if (err) {
+				if (obj.code == "invalid_email"){
+					req.flash('error', 'Invalid email');
+				} else if (obj.code == "invalid_password"){
+					req.flash('error', 'Invalid password')
+				} else {
+					req.flash('error', 'Unknown signup error (' + obj.code + ')')
+				}
+				res.redirect('/signup');
+			} else {
+				req.flash('success', 'Success signup');
+				res.redirect('/login');
+			}
+		});
+	} else {
+		req.flash('error', 'Passwords don\'t match');
+		res.redirect('/signup');
+	}
 });
 
 /* ==================== */

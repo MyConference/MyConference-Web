@@ -23,5 +23,9 @@ html
 				div.alert.alert-danger.alert-dismissable
 					button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
 					!= message
+			for message in flash('success')
+				div.alert.alert-success.alert-dismissable
+					button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
+					!= message
 
 			block contents
