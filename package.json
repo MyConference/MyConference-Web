@@ -23,6 +23,7 @@
     "restify": "~2.6",
     "jade": "~1.0",
     "node-sass": "~0.7.0",
-    "connect-flash":"~0.1.1"
+    "connect-flash":"~0.1.1",
+    "node-uuid": "~1.4.1"
   }
 }

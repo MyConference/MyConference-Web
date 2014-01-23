@@ -19,23 +19,25 @@ app.get('/login', function(req, res) {
 });
 
 app.post('/login', function (req, res){
-	if (!req.body.email){
+	if (!req.body.email) {
 		req.flash('error', 'Email can\'t be empty');
 		res.redirect('/login');
-	} else if(!req.body.password){
+
+	} else if (!req.body.password) {
 		req.flash('error', 'Password can\'t be empty');
 		res.redirect('/login');
+
 	} else {
 		console.log('LOGIN');
 		client.post('/auth', {
 			'application_id' : config.application,
-			'client_id' : 'id',
+			'device_id' : req.session.device,
 			'credentials' : {
 				'type' : 'password',
 				'email' : req.body.email,
 				'password' : req.body.password
 			}
-		}, function (err, areq, ares, obj){
+		}, function (err, areq, ares, obj) {
 			console.log('ERROR: %s', err);
 			console.dir(obj);
 			if (err) {
@@ -45,7 +47,15 @@ app.post('/login', function (req, res){
 					req.flash('error', 'Unknown login error (' + obj.code + ')')
 				}
 				res.redirect('/login');
+
 			} else {
+				req.session.loginData = {
+					'accessToken': obj.access_token,
+					'accessTokenExpires': new Date(obj.access_token_expires),
+					'refreshToken': obj.refresh_token,
+					'refreshTokenExpires': new Date(obj.refresh_token_expires),
+					'userId': obj.user.id
+				};
 				res.redirect('/dashboard');
 			}
 		});
@@ -64,16 +74,19 @@ app.post('/signup', function (req, res){
 	if (!req.body.email){
 		req.flash('error', 'Email can\'t be empty');
 		res.redirect('/signup');
+
 	} else if(req.body.password.length < 8){
 		req.flash('error', 'Password needs at least 8 characters');
 		res.redirect('/signup');
+
 	} else if(req.body.password != req.body.repeat_password){
 		req.flash('error', 'Passwords don\'t match');
 		res.redirect('/signup');
+
 	} else {
 		client.post('/auth/signup', {
 			'application_id' : config.application,
-			'client_id' : 'id',
+			'device_id' : req.session.device,
 			'user_data' : {
 				'email' : req.body.email,
 				'password' : req.body.password

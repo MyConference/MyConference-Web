@@ -1,4 +1,8 @@
-var express = require('express') , path = require('path'), sass = require('node-sass'), flash = require('connect-flash');
+var express = require('express')
+var path = require('path')
+var sass = require('node-sass')
+var flash = require('connect-flash');
+var uuid = require('node-uuid');
 
 var config = require('./config.js');
 
@@ -31,6 +35,12 @@ app.use(express.urlencoded());
 
 app.use(function (req, res, next) {
 	res.locals.flash = req.flash.bind(req);
+    res.locals.session = req.session;
+
+    if (!req.session.device) {
+        req.session.device = uuid.v4();
+    }
+
 	next();
 });
 
