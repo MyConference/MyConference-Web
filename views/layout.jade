@@ -15,9 +15,13 @@ html
 		nav.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation")
 			.container
 				p.navbar-text.navbar-left My Conference
-				unless session.loginData
-					a.btn.navbar-btn.navbar-right(href="/login") Login
+				if session.loginData
+					a.btn.navbar-btn(href="/conferences") Conferences
+					a.btn.navbar-btn.navbar-right(href="/logout") Log out
+				else
+					a.btn.navbar-btn.navbar-right(href="/login") Log in
 					a.btn.navbar-btn.navbar-right(href="/signup") Sign up
+
 
 		.container
 			for message in flash('error')

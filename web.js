@@ -3,6 +3,7 @@ var path = require('path')
 var sass = require('node-sass')
 var flash = require('connect-flash');
 var uuid = require('node-uuid');
+var MongoStore = require('connect-mongo')(express);
 
 var config = require('./config.js');
 
@@ -13,7 +14,12 @@ if (config.debug) {
 }
 
 app.use(express.cookieParser('keyboard cat'));
-app.use(express.session({ cookie: { maxAge: 60000 }}));
+app.use(express.session({
+    cookie: { maxAge: 60000 },
+    store: new MongoStore({
+        url: config.mongo.url
+    })
+}));
 app.use(flash());
 
 app.use(

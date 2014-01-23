@@ -112,6 +112,25 @@ app.post('/signup', function (req, res){
 });
 
 /* ==================== */
+/* =======LOGOUT======= */
+app.get('/logout', function(req, res) {
+   res.render('logout');
+});
+
+app.post('/logout', function (req, res){
+	console.log('LOGIN');
+	client.post({
+		path: '/auth/logout', 
+		headers: {authorization: 'Token ' + req.session.loginData.accessToken}
+	}, {}, function (err, areq, ares, obj) {
+		console.log('ERROR: %s', err);
+		console.dir(obj);
+		req.session.loginData = null;
+		res.redirect('/');
+	});
+});
+
+/* ==================== */
 /* =====DASHBOARD====== */
 app.get('/dashboard', function(req, res) {
    res.render('dashboard');
