@@ -15,7 +15,8 @@ if (config.debug) {
 
 app.use(express.cookieParser('keyboard cat'));
 app.use(express.session({
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 7 * 86400 * 1000 },
+    salt: '2af705ba6fd940b3abd6b4e7cdcc0f355a1ea15707c642b78bd2-529f72f3d071',
     store: new MongoStore({
         url: config.mongo.url
     })
@@ -26,7 +27,7 @@ app.use(
      sass.middleware({
          src: __dirname + '/sass', //Where the sass files are 
          dest: __dirname + '/public/css', //Where css should go
-         debug: config.debug,
+         debug: false,
          outputStyle: config.debug ? 'expanded' : 'compressed',
          prefix: '/css/'
     })

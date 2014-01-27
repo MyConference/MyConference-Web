@@ -1,24 +1,29 @@
 extends layout
 
 block contents
-  h2 conferences
+  .panel.panel-default
 
-  .panel.panel-default: .panel-body
-    .pull-right
-      a.btn.btn-primary
-        i.fa.fa-plus
-        |  New Conference
+    .panel-heading
+      .pull-right
+        a.btn.btn-default
+          i.fa.fa-plus
+          | &nbsp; New Conference
 
-    table.table
-      tr
-        th Title
-        th Description
+      h4 Conferences
 
-      for conference in conferences
+      .clearfix
+
+    .panel-body
+      table.table
         tr
-          td= conference.title
-          td= conference.description
+          th Title
+          th Description
 
-      else
-        tr
-          td(colspan="2") No conferences found
+        for conference in conferences
+          tr
+            td= conference.title
+            td= conference.description
+
+        else
+          tr
+            td(colspan="2") No conferences found
