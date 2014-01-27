@@ -1,0 +1,24 @@
+extends layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 New Conference
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/conferences/new")
+
+        .form-group
+          label.col-sm-2(for="conference-name") Name
+          .col-sm-10
+            input#conference-name.form-control(type="text" name="name" value=(data.name ? data.name : null) placeholder="Conference Name")
+
+        .form-group
+          label.col-sm-2(for="conference-description") Description
+          .col-sm-10
+            input#conference-description.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Short Conference Description")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Create Conference

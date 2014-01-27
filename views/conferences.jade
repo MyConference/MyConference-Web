@@ -5,7 +5,7 @@ block contents
 
     .panel-heading
       .pull-right
-        a.btn.btn-default
+        a.btn.btn-default(href="/conferences/new")
           i.fa.fa-plus
           | &nbsp; New Conference
 
@@ -16,12 +16,12 @@ block contents
     .panel-body
       table.table
         tr
-          th Title
+          th Name
           th Description
 
         for conference in conferences
           tr
-            td= conference.title
+            td= conference.name
             td= conference.description
 
         else
