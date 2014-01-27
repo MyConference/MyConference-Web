@@ -1,5 +1,24 @@
 extends layout
 
 block contents
-	.jumbotron
-		h1 CONFERENCES
+  h2 conferences
+
+  .panel.panel-default: .panel-body
+    .pull-right
+      a.btn.btn-primary
+        i.fa.fa-plus
+        |  New Conference
+
+    table.table
+      tr
+        th Title
+        th Description
+
+      for conference in conferences
+        tr
+          td= conference.title
+          td= conference.description
+
+      else
+        tr
+          td(colspan="2") No conferences found

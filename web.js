@@ -50,6 +50,13 @@ app.use(function (req, res, next) {
 	next();
 });
 
-app.use('/', require('./routes/index.js'));
+app.use('/',            require('./routes/index.js'));
+app.use('/conferences', require('./routes/conferences.js'));
 
-app.listen(config.http.port);
+app.listen(config.http.port, function (err) {
+    if (err) {
+        console.log('Error while starting server: ', err);
+    } else {
+        console.log('Listening on port %s', config.http.port);
+    }
+});
