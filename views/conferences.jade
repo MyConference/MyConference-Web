@@ -13,17 +13,18 @@ block contents
 
       .clearfix
 
-    .panel-body
-      table.table
+    table.table.table-striped.table-bordered
+      tr
+        th Name
+        th Description
+        th Role
+
+      for conference in conferences
         tr
-          th Name
-          th Description
+          td= conference.name
+          td= conference.description
+          td= conference.role
 
-        for conference in conferences
-          tr
-            td= conference.name
-            td= conference.description
-
-        else
-          tr
-            td(colspan="2") No conferences found
+      else
+        tr
+          td(colspan="2") No conferences found
