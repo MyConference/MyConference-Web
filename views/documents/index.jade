@@ -29,7 +29,7 @@ block contents
           td= doc.description
           td= doc.type
           if doc.type == 'link'
-            td: a(href=doc.data)= doc.data
+            td: a(href=doc.data target="_blank")= doc.data
           else 
             td= 'Unrecognized document type'
 
