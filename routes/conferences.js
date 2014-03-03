@@ -98,8 +98,8 @@ app.get('/:id', function (req, res, next) {
       res.redirect('/');
 
     } else {
-      res.render('conferences', {
-        'conferences': obj
+      res.render('conferences/view', {
+        'conference': obj
       });
     }
   });
@@ -117,6 +117,7 @@ app.post('/:id/delete', function (req, res, next) {
     } else {
       req.flash('success', 'The conference has been successfully removed!')
     }
+
     res.redirect('/');
   });
 });
