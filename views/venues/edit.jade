@@ -1,0 +1,36 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 Add Venue
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/venues/new")
+
+        input(type="hidden" name="conference" value=conference.id)
+
+        .form-group
+          label.col-sm-2(for="venue-title") Name
+          .col-sm-10
+            input#venue-title.form-control(type="text" name="name" value=(data.name ? data.name : null) placeholder="Venue Name")
+
+        .form-group
+          label.col-sm-2(for="venue-latitude") 
+          .col-sm-10
+            input#venue-latitude.form-control(type="text" name="latitude" value=(data.location.lat ? data.location.lat : null) placeholder="Venue Location Latitude")
+
+        .form-group
+          label.col-sm-2(for="venue-longitude") 
+          .col-sm-10
+            input#venue-longitude.form-control(type="text" name="longitude" value=(data.location.long ? data.location.long : null) placeholder="Venue Location Longitude")
+
+        .form-group
+          label.col-sm-2(for="venue-details") 
+          .col-sm-10
+            input#venue-details.form-control(type="text" name="details" value=(data.details ? data.details : null) placeholder="Venue Details")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Add Venue
