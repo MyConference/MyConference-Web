@@ -143,4 +143,24 @@ app.get('/:id/documents', function (req, res, next) {
 });
 
 
+app.get('/:id/announcements', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('announcements/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
+
 module.exports = app;

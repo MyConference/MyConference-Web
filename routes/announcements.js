@@ -32,7 +32,9 @@ app.get('/new', function (req,res, next) {
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
-      res.render('documents/edit', {
+      obj.date = new Date(obj.date);
+      
+      res.render('announcements/edit', {
         'conference': obj,
         'data': {}
       });
@@ -43,16 +45,15 @@ app.get('/new', function (req,res, next) {
 
 app.post('/new', function (req,res, next) {
   client.post({
-    'path': '/documents',
+    'path': '/announcements',
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
   }, {
-    'conference':  req.body.conference,
-    'title':       req.body.title,
-    'description': req.body.description,
-    'type':        req.body.type,
-    'data':        req.body.data
+    'conference': req.body.conference,
+    'title':      req.body.title,
+    'body':       req.body.body,
+    'date':       (new Date()).toISOString()
 
   }, function (err, areq, ares, obj) {
     if (err) {
@@ -60,8 +61,8 @@ app.post('/new', function (req,res, next) {
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
-      req.flash('success', 'Document <strong>' + obj.title + '</strong> created successfully');
-      res.redirect('/conferences/' + req.body.conference + '/documents');
+      req.flash('success', 'Announcement <strong>' + obj.title + '</strong> created successfully');
+      res.redirect('/conferences/' + req.body.conference + '/announcements');
     }
   });
 

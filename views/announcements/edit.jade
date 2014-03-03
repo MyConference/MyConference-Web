@@ -1,0 +1,26 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 Add Announcement
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/announcements/new")
+
+        input(type="hidden" name="conference" value=conference.id)
+
+        .form-group
+          label.col-sm-2(for="announcement-title") Title
+          .col-sm-10
+            input#announcement-title.form-control(type="text" name="title" value=(data.title ? data.title : null) placeholder="Announcement Title")
+
+        .form-group
+          label.col-sm-2(for="announcement-body") Body
+          .col-sm-10
+            input#announcement-body.form-control(type="text" name="body" value=(data.body ? data.body : null) placeholder="Announcement Body")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Add Announcement
