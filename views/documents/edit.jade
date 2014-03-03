@@ -1,0 +1,34 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 New Document
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/documents/new")
+
+        .form-group
+          label.col-sm-2(for="document-title") Title
+          .col-sm-10
+            input#document-title.form-control(type="text" name="title" value=(data.title ? data.title : null) placeholder="Document Title")
+
+        .form-group
+          label.col-sm-2(for="document-description") Description
+          .col-sm-10
+            input#document-description.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Document Description")
+
+        .form-group
+          label.col-sm-2(for="document-type") Type
+          .col-sm-10
+            input#document-type.form-control(type="text" name="type" value=(data.type ? data.type : null) placeholder="Document Type")
+
+        .form-group
+          label.col-sm-2(for="document-data") Data
+          .col-sm-10
+            input#document-data.form-control(type="text" name="data" value=(data.data ? data.data : null) placeholder="Document Data")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Add Document

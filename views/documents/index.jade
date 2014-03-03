@@ -1,0 +1,38 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      .pull-right
+        a.btn.btn-default(href="/documents/new")
+          i.fa.fa-plus
+          | &nbsp; New Document
+
+      h4 Documents
+
+      .clearfix
+
+    .panel-body.
+      This is the list of documents of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Title
+        th Description
+        th Type
+        th Data
+
+      for doc in conference.documents
+        tr
+          td= doc.title
+          td= doc.description
+          td= doc.type
+          if doc.type == 'link'
+            td: a(href=doc.data)
+          else 
+            td= 'Unrecognized document type'
+
+      else
+        tr
+          td(colspan="3") No documents found
