@@ -23,18 +23,18 @@ html
 					span.icon-bar
 
 				a.navbar-brand(href="/")
-					if currentConference
-						= currentConference.name
+					if conference
+						= conference.name
 					else
 						| My Conference
 
 			#navbar-collapse.collapse.navbar-collapse
 				ul.nav.navbar-nav
-					if session.selected
-						li: a(href=("/"+currentConference.id+"/users")) Users
-						li: a(href=("/"+currentConference.id+"/announcements")) Announcements
-						li: a(href=("/"+currentConference.id+"/documents")) Documents
-						li: a(href=("/"+currentConference.id+"/venues")) Venues
+					if conference
+						li: a(href=("/conferences/"+conference.id+"/users")) Users
+						li: a(href=("/conferences/"+conference.id+"/announcements")) Announcements
+						li: a(href=("/conferences/"+conference.id+"/documents")) Documents
+						li: a(href=("/conferences/"+conference.id+"/venues")) Venues
 
 				ul.nav.navbar-nav.navbar-right
 					if session.loginData
