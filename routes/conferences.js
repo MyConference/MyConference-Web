@@ -88,7 +88,7 @@ app.post('/new', function (req, res, next) {
 
 app.get('/:id', function (req, res, next) {
   client.get({
-    'path': '/conferences' + req.params.id,
+    'path': '/conferences/' + req.params.id,
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
@@ -102,6 +102,22 @@ app.get('/:id', function (req, res, next) {
         'conferences': obj
       });
     }
+  });
+});
+
+app.post('/:id/delete', function (req, res, next) {
+  client.del({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+    } else {
+      req.flash('success', 'The conference has been successfully removed!')
+    }
+    res.redirect('/');
   });
 });
 
