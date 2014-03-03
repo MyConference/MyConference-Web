@@ -5,16 +5,16 @@ block contents
 
     .panel-heading
       .pull-right
-        a.btn.btn-default(href=("/annoucements/new?conference="+conference.id))
+        a.btn.btn-default(href=("/announcements/new?conference="+conference.id))
           i.fa.fa-plus
-          | &nbsp; Add Annoucement
+          | &nbsp; Add Announcement
 
-      h4 Annoucements
+      h4 Announcements
 
       .clearfix
 
     .panel-body.
-      This is the list of annoucements of the conference.
+      This is the list of announcements of the conference.
 
     table.table.table-striped.table-bordered
       tr
@@ -22,12 +22,12 @@ block contents
         th Body
         th Date
 
-      for annoucement in conference.annoucements
+      for announcement in conference.announcements
         tr
-          td= annoucement.title
-          td= annoucement.body
-          td= annoucement.date
+          td= announcement.title
+          td= announcement.body
+          td= announcement.date
 
       else
         tr
-          td(colspan="3") No annoucements found
+          td(colspan="3") No announcements found
