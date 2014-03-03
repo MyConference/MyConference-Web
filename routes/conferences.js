@@ -28,7 +28,7 @@ app.get('/', function (req, res, next) {
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
-      res.render('conferences', {
+      res.render('conferences/index', {
         'conferences': obj
       });
     }
@@ -38,7 +38,7 @@ app.get('/', function (req, res, next) {
 
 app.get('/new', function (req, res, next) {
   // GET - Just render the form
-  res.render('conferences-new', {
+  res.render('conferences/edit', {
     'data': {}
   });
 });
@@ -98,8 +98,8 @@ app.get('/:id', function (req, res, next) {
       res.redirect('/');
 
     } else {
-      res.render('conferences', {
-        'conferences': obj
+      res.render('conferences/view', {
+        'conference': obj
       });
     }
   });
@@ -117,6 +117,7 @@ app.post('/:id/delete', function (req, res, next) {
     } else {
       req.flash('success', 'The conference has been successfully removed!')
     }
+
     res.redirect('/');
   });
 });
