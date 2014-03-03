@@ -29,8 +29,9 @@ block contents
           td: a(href="/conferences/"+conference.id)= conference.name
           td= conference.description
           td= conference.role
-          td: form.navbar-form(action=("/conferences/"+conference.id+"/delete") method="post")
-              button.btn.btn-danger(type="submit") Delete
+          if conference.role == 'owner'
+            td: form.navbar-form(action=("/conferences/"+conference.id+"/delete") method="post")
+                button.btn.btn-danger(type="submit") Delete
 
       else
         tr
