@@ -1,5 +1,6 @@
 var express = require('express');
 var client = require('../client.js');
+var winston = require('winston');
 
 var config = require('../config.js');
 
@@ -25,6 +26,7 @@ app.get('/', function (req, res, next) {
   }, function (err, areq, ares, obj) {
     if (err) {
       req.flash('error', err);
+      winston.error(err);
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
@@ -132,6 +134,7 @@ app.get('/:id/documents', function (req, res, next) {
   }, function (err, areq, ares, obj) {
     if (err) {
       req.flash('error', err);
+      winston.error(err);
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
@@ -156,6 +159,25 @@ app.get('/:id/announcements', function (req, res, next) {
 
     } else {
       res.render('announcements/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
+app.get('/:id/venues', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('venues/index', {
         'conference': obj
       });
     }

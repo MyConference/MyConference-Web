@@ -89,6 +89,7 @@ app.use('/',              require('./routes/index.js'));
 app.use('/conferences',   require('./routes/conferences.js'));
 app.use('/documents',     require('./routes/documents.js'));
 app.use('/announcements', require('./routes/announcements.js'));
+app.use('/venues',        require('./routes/venues.js'));
 
 /* Run the server */
 app.listen(config.http.port, function (err) {

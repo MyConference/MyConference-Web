@@ -25,7 +25,7 @@ block contents
       for venue in conference.venues
         tr
           td= venue.name
-          td= (venue.location.lat + ',' + venue.location.long)
+          td= (venue.location.lat + ', ' + venue.location.lng)
           td= venue.details
 
       else
