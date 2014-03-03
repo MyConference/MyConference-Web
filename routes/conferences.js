@@ -25,7 +25,7 @@ app.get('/', function (req, res, next) {
   }, function (err, areq, ares, obj) {
     if (err) {
       req.flash('error', err);
-      res.redirect('/dashboard');
+      res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
       res.render('conferences', {
@@ -82,6 +82,26 @@ app.post('/new', function (req, res, next) {
     // Redirect to conferences and say ok
     req.flash('success', 'Conference created successfully!');
     return res.redirect('/conferences');
+  });
+});
+
+
+app.get('/:id', function (req, res, next) {
+  client.get({
+    'path': '/conferences' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+
+    } else {
+      res.render('conferences', {
+        'conferences': obj
+      });
+    }
   });
 });
 

@@ -13,6 +13,10 @@ block contents
 
       .clearfix
 
+    .panel-body.
+      This is the list of conferences to which you have access. Select one to
+      see its details and be able to edit them if you are a collaborator.
+
     table.table.table-striped.table-bordered
       tr
         th Name
@@ -21,10 +25,10 @@ block contents
 
       for conference in conferences
         tr
-          td= conference.name
+          td: a(href="/conferences/"+conference.id)= conference.name
           td= conference.description
           td= conference.role
 
       else
         tr
-          td(colspan="2") No conferences found
+          td(colspan="3") No conferences found

@@ -6,29 +6,38 @@ var config = require('../config.js');
 var app = express();
 
 
-/* ==================== */
-/* =======LANDING======== */
+/* =============== */
+/* === LANDING === */
+
 app.get('/', function(req, res) {
-   res.render('landing');
+	if (req.session.loginData) {
+		return res.redirect('/conferences');
+	}
+
+  res.render('index/landing');
 });
 
-/* ==================== */
-/* =======LOGIN======== */
+
+/* ============= */
+/* === LOGIN === */
+
 app.get('/login', function(req, res) {
-   res.render('login');
+  res.render('index/login');
+	req.session.lastBody = {};
 });
 
-app.post('/login', function (req, res){
+app.post('/login', function (req, res) {
+	req.session.lastBody = req.body;
+
 	if (!req.body.email) {
-		req.flash('error', 'Email can\'t be empty');
+		req.flash('error', 'Enter your Email below');
 		res.redirect('/login');
 
 	} else if (!req.body.password) {
-		req.flash('error', 'Password can\'t be empty');
+		req.flash('error', 'Enter your Password below');
 		res.redirect('/login');
 
 	} else {
-		console.log('LOGIN');
 		client.post('/auth', {
 			'application_id' : config.application,
 			'device_id' : req.session.device,
@@ -56,21 +65,20 @@ app.post('/login', function (req, res){
 					'refreshTokenExpires': new Date(obj.refresh_token_expires),
 					'userId': obj.user.id
 				};
-				res.redirect('/dashboard');
+				res.redirect('/conferences');
 			}
 		});
 	}
 });
 
 
-/* ==================== */
-/* =======SIGNUP======= */
+/* ============== */
+/* === SIGNUP === */
 app.get('/signup', function(req, res) {
-   res.render('signup');
+   res.render('index/signup');
 });
 
-app.post('/signup', function (req, res){
-	console.log('SIGNUP');
+app.post('/signup', function (req, res) {
 	if (!req.body.email){
 		req.flash('error', 'Email can\'t be empty');
 		res.redirect('/signup');
@@ -92,8 +100,6 @@ app.post('/signup', function (req, res){
 				'password' : req.body.password
 			}
 		}, function (err, areq, ares, obj){
-			console.log('ERROR: %s', err);
-			console.dir(obj);
 			if (err) {
 				if (obj.code == "invalid_email"){
 					req.flash('error', 'Invalid email');
@@ -114,7 +120,7 @@ app.post('/signup', function (req, res){
 /* ==================== */
 /* =======LOGOUT======= */
 app.get('/logout', function(req, res) {
-   res.render('logout');
+   res.render('index/logout');
 });
 
 app.post('/logout', function (req, res){
@@ -133,7 +139,7 @@ app.post('/logout', function (req, res){
 /* ==================== */
 /* =====DASHBOARD====== */
 app.get('/dashboard', function(req, res) {
-   res.render('dashboard');
+   res.render('index/dashboard');
 });
 
 module.exports = app;

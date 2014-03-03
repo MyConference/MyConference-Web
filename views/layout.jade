@@ -22,29 +22,41 @@ html
 					span.icon-bar
 					span.icon-bar
 
-				a.navbar-brand(href="/") My Conference
+				a.navbar-brand(href="/")
+					if currentConference
+						= currentConference.name
+					else
+						| My Conference
 
 			#navbar-collapse.collapse.navbar-collapse
 				ul.nav.navbar-nav
-					if session.loginData
-						li: a(href="/conferences") Conferences
+					if session.selected
+						li: a(href=("/"+currentConference.id+"/users")) Users
+						li: a(href=("/"+currentConference.id+"/announcements")) Announcements
+						li: a(href=("/"+currentConference.id+"/documents")) Documents
+						li: a(href=("/"+currentConference.id+"/venues")) Venues
 
 				ul.nav.navbar-nav.navbar-right
 					if session.loginData
-						li: a(href="/logout") Log out
+						li: form.navbar-form(action="/logout" method="post")
+							button.btn.btn-sm.btn-link.navbar-link(type="submit") Log out
 					else
-						li: a(href="/login") Log in
-						li: a(href="/signup") Sign up
-
+						li: a.navbar-link(href="/login"): small Log in
+						li: form.navbar-form(action="/signup" method="get")
+							button.btn.btn-primary(type="submit") Sign up
 
 		.container
+			// Error messages
 			for message in flash('error')
 				div.alert.alert-danger.alert-dismissable
 					button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
 					!= message
+
+			// Success messages
 			for message in flash('success')
 				div.alert.alert-success.alert-dismissable
 					button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
 					!= message
 
+			// Page contents
 			block contents
