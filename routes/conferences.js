@@ -162,5 +162,24 @@ app.get('/:id/announcements', function (req, res, next) {
   });
 });
 
+app.get('/:id/users', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('users/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
 
 module.exports = app;
