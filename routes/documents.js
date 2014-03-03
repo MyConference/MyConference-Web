@@ -14,3 +14,29 @@ app.use(function (req, res, next) {
     return next();
   }
 });
+
+
+app.get('/new', function (req,res, next) {
+  if (!res.query.conference) {
+    return res.redirect('/conferences');
+  }
+
+  client.get({
+    'path': '/conferences/' + req.query.conference,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('documents/edit', {
+        'conference': obj,
+        'data': {}
+      });
+    }
+  });
+
+});
