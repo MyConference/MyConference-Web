@@ -1,0 +1,33 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      .pull-right
+        a.btn.btn-default(href=("/annoucements/new?conference="+conference.id))
+          i.fa.fa-plus
+          | &nbsp; Add Annoucement
+
+      h4 Annoucements
+
+      .clearfix
+
+    .panel-body.
+      This is the list of annoucements of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Title
+        th Body
+        th Date
+
+      for annoucement in conference.annoucements
+        tr
+          td= annoucement.title
+          td= annoucement.body
+          td= annoucement.date
+
+      else
+        tr
+          td(colspan="3") No annoucements found
