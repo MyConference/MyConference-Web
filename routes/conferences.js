@@ -1,5 +1,6 @@
 var express = require('express');
 var client = require('../client.js');
+var winston = require('winston');
 
 var config = require('../config.js');
 
@@ -25,20 +26,21 @@ app.get('/', function (req, res, next) {
   }, function (err, areq, ares, obj) {
     if (err) {
       req.flash('error', err);
+      winston.error(err);
       res.redirect('/'); // FIXME infinite redirect loop
 
     } else {
-      res.render('conferences', {
+      res.render('conferences/index', {
         'conferences': obj
       });
     }
   });
-});
+}); 
 
 
 app.get('/new', function (req, res, next) {
   // GET - Just render the form
-  res.render('conferences-new', {
+  res.render('conferences/edit', {
     'data': {}
   });
 });
@@ -88,7 +90,7 @@ app.post('/new', function (req, res, next) {
 
 app.get('/:id', function (req, res, next) {
   client.get({
-    'path': '/conferences' + req.params.id,
+    'path': '/conferences/' + req.params.id,
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
@@ -98,11 +100,108 @@ app.get('/:id', function (req, res, next) {
       res.redirect('/');
 
     } else {
-      res.render('conferences', {
-        'conferences': obj
+      res.render('conferences/view', {
+        'conference': obj
       });
     }
   });
 });
+
+app.post('/:id/delete', function (req, res, next) {
+  client.del({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+    } else {
+      req.flash('success', 'The conference has been successfully removed!')
+    }
+
+    res.redirect('/');
+  });
+});
+
+
+app.get('/:id/documents', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      winston.error(err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('documents/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
+
+app.get('/:id/announcements', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('announcements/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
+app.get('/:id/venues', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('venues/index', {
+        'conference': obj
+      });
+    }
+  });
+});
+
+app.get('/:id/users', function (req, res, next) {
+client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('users/index', {
+          'conference': obj
+      });
+    }
+  });
+});
+
 
 module.exports = app;

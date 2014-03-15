@@ -1,0 +1,33 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      .pull-right
+        a.btn.btn-default(href=("/venues/new?conference="+conference.id))
+          i.fa.fa-plus
+          | &nbsp; Add Venue
+
+      h4 Venues
+
+      .clearfix
+
+    .panel-body.
+      This is the list of venues of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Name
+        th Location
+        th Details
+
+      for venue in conference.venues
+        tr
+          td= venue.name
+          td= (venue.location.lat + ', ' + venue.location.lng)
+          td= venue.details
+
+      else
+        tr
+          td(colspan="3") No venues found

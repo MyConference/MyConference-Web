@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block contents
   .panel.panel-default
@@ -22,12 +22,16 @@ block contents
         th Name
         th Description
         th Role
+        th
 
       for conference in conferences
         tr
           td: a(href="/conferences/"+conference.id)= conference.name
           td= conference.description
           td= conference.role
+          if conference.role == 'owner'
+            td: form.navbar-form(action=("/conferences/"+conference.id+"/delete") method="post")
+                button.btn.btn-danger(type="submit") Delete
 
       else
         tr
