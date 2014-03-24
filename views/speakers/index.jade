@@ -1,0 +1,35 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      .pull-right
+        a.btn.btn-default(href=("/speakers/new?conference="+conference.id))
+          i.fa.fa-plus
+          | &nbsp; Add Speaker
+
+      h4 Speakers
+
+      .clearfix
+
+    .panel-body.
+      This is the list of speakers of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Name           
+        th Origin
+        th Charge
+        th Description
+
+      for speaker in conference.speakers
+        tr
+          td= speaker.name
+          td= speaker.origin
+          td= speaker.charge
+          td= speaker.description
+
+      else
+        tr
+          td(colspan="3") No speakers found

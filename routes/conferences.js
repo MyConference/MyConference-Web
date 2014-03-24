@@ -222,5 +222,23 @@ client.get({
   });
 });
 
+app.get('/:id/speakers', function (req, res, next) {
+client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('speakers/index', {
+          'conference': obj
+      });
+    }
+  });
+});
 
 module.exports = app;
