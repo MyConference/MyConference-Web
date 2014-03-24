@@ -8,6 +8,7 @@ var winston = require('winston');
 var sprintf  = require('sprintf');
 
 var config = require('./config.js');
+var client = require('./client.js');
 
 var app = express();
 
@@ -82,6 +83,50 @@ app.use(function (req, res, next) {
     }
 
 	next();
+});
+
+/* Check if refresh token is expired */
+app.use(function (req, res, next) {
+  if (!req.session.loginData){
+    return next();
+  }
+
+  if(Date.now() < req.session.loginData.refreshTokenExpires){
+    if(Date.now() >= req.session.loginData.accessTokenExpires){
+      console.dir(req.session); 
+      client.post('/auth', {
+        'application_id' : config.application,
+        'device_id' : req.session.device,
+        'credentials' : {
+          'type' : 'refresh',
+          'refresh_token' : req.session.loginData.refreshToken
+        }
+      }, function (err, areq, ares, obj) {
+        console.log('ERROR: %s', err);
+        console.dir(obj);
+        
+        if (err) {
+          req.session.loginData = null;
+          return next(err);
+        }
+
+        req.session.loginData = {
+          'accessToken': obj.access_token,
+          'accessTokenExpires': new Date(obj.accessTokenExpires).getTime(),
+          'refreshToken': obj.refresh_token,
+          'refreshTokenExpires': new Date(obj.refreshTokenExpires).getTime(),
+          'userId': obj.user.id
+        };
+
+        return next();
+      });
+    } else {
+      return next();
+    }
+  } else {
+    req.session.loginData = null;
+    return next();
+  }
 });
 
 /* Bind routes */

@@ -60,9 +60,9 @@ app.post('/login', function (req, res) {
 			} else {
 				req.session.loginData = {
 					'accessToken': obj.access_token,
-					'accessTokenExpires': new Date(obj.access_token_expires),
+					'accessTokenExpires': new Date(obj.access_token_expires).getTime(),
 					'refreshToken': obj.refresh_token,
-					'refreshTokenExpires': new Date(obj.refresh_token_expires),
+					'refreshTokenExpires': new Date(obj.refresh_token_expires).getTime(),
 					'userId': obj.user.id
 				};
 				res.redirect('/conferences');
@@ -70,7 +70,6 @@ app.post('/login', function (req, res) {
 		});
 	}
 });
-
 
 /* ============== */
 /* === SIGNUP === */
@@ -124,16 +123,20 @@ app.get('/logout', function(req, res) {
 });
 
 app.post('/logout', function (req, res){
-	console.log('LOGIN');
-	client.post({
-		path: '/auth/logout', 
-		headers: {authorization: 'Token ' + req.session.loginData.accessToken}
-	}, {}, function (err, areq, ares, obj) {
-		console.log('ERROR: %s', err);
-		console.dir(obj);
-		req.session.loginData = null;
+	console.log('LOGOUT');
+	if (req.session.loginData){
+		client.post({
+			path: '/auth/logout', 
+			headers: {authorization: 'Token ' + req.session.loginData.accessToken}
+		}, {}, function (err, areq, ares, obj) {
+			console.log('ERROR: %s', err);
+			console.dir(obj);
+			req.session.loginData = null;
+			res.redirect('/');
+		});
+	} else {
 		res.redirect('/');
-	});
+	}
 });
 
 /* ==================== */
