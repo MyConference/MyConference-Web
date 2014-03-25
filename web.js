@@ -132,7 +132,8 @@ app.use('/documents',     require('./routes/documents.js'));
 app.use('/announcements', require('./routes/announcements.js'));
 app.use('/venues',        require('./routes/venues.js'));
 app.use('/organizers',    require('./routes/organizers.js'));
-app.use('/speakers',    require('./routes/speakers.js'));
+app.use('/speakers',      require('./routes/speakers.js'));
+app.use('/users',         require('./routes/users.js'));
 
 /* Run the server */
 app.listen(config.http.port, function (err) {

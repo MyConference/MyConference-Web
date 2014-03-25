@@ -129,7 +129,6 @@ app.post('/logout', function (req, res){
 			path: '/auth/logout', 
 			headers: {authorization: 'Token ' + req.session.loginData.accessToken}
 		}, {}, function (err, areq, ares, obj) {
-			console.log('ERROR: %s', err);
 			console.dir(obj);
 			req.session.loginData = null;
 			res.redirect('/');
@@ -141,8 +140,40 @@ app.post('/logout', function (req, res){
 
 /* ==================== */
 /* =====DASHBOARD====== */
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', function (req, res) {
    res.render('index/dashboard');
 });
+
+
+/* ============== */
+/* === REDEEM === */
+app.get('/redeem', function (req, res) {
+
+	res.render('index/redeem', {
+		'data': {
+			'code': req.query.code
+		}
+	})
+});
+
+app.post('/redeem', function (req, res) {
+	if (!req.session.loginData) {
+		return res.redirect('/login');
+	}
+
+	client.post({
+		path: '/invite-codes/' + req.body.code + '/redeem', 
+		headers: {authorization: 'Token ' + req.session.loginData.accessToken}
+	}, {}, function (err, areq, ares, obj) {
+		if (err) {
+			req.flash('error', 'Could not redeem code: ' + err);
+			return res.redirect('/redeem?code=' + req.body.code);
+		}
+
+		req.flash('success', 'Code redeemed successfully');
+		res.redirect('/conferences');
+	});
+})
+
 
 module.exports = app;
