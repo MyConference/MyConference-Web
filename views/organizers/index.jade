@@ -23,12 +23,12 @@ block contents
         th Details
         th Group
 
-      for doc in conference.organizers
+      for organizer in conference.organizers
         tr
-          td= doc.name
-          td= doc.origin
-          td= doc.details
-          td= doc.group
+          td= organizer.name
+          td= organizer.origin
+          td= organizer.details
+          td= organizer.group
 
       else
         tr
