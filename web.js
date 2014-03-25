@@ -18,11 +18,7 @@ var app = express();
 winston.clear();
 winston.cli();
 winston.add(winston.transports.Console, {
-  'timestamp': !config.debug ? false : function () {
-    var date = new Date();
-    return sprintf('\033[90m%02d:%02d:%02d.%03d\033[m',
-      date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-  },
+  'timestamp': false,
   'prettyPrint': true,
   'colorize': config.debug,
   'level': config.debug ? 'debug' : 'info'
