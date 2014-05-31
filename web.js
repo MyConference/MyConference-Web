@@ -8,6 +8,7 @@ var winston = require('winston');
 var sprintf  = require('sprintf');
 
 var config = require('./config.js');
+var client = require('./client.js');
 
 var app = express();
 
@@ -17,11 +18,7 @@ var app = express();
 winston.clear();
 winston.cli();
 winston.add(winston.transports.Console, {
-  'timestamp': !config.debug ? false : function () {
-    var date = new Date();
-    return sprintf('\033[90m%02d:%02d:%02d.%03d\033[m',
-      date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
-  },
+  'timestamp': false,
   'prettyPrint': true,
   'colorize': config.debug,
   'level': config.debug ? 'debug' : 'info'
@@ -84,12 +81,59 @@ app.use(function (req, res, next) {
 	next();
 });
 
+/* Check if refresh token is expired */
+app.use(function (req, res, next) {
+  if (!req.session.loginData){
+    return next();
+  }
+
+  if(Date.now() < req.session.loginData.refreshTokenExpires){
+    if(Date.now() >= req.session.loginData.accessTokenExpires){
+      console.dir(req.session); 
+      client.post('/auth', {
+        'application_id' : config.application,
+        'device_id' : req.session.device,
+        'credentials' : {
+          'type' : 'refresh',
+          'refresh_token' : req.session.loginData.refreshToken
+        }
+      }, function (err, areq, ares, obj) {
+        console.log('ERROR: %s', err);
+        console.dir(obj);
+        
+        if (err) {
+          req.session.loginData = null;
+          return next(err);
+        }
+
+        req.session.loginData = {
+          'accessToken': obj.access_token,
+          'accessTokenExpires': new Date(obj.accessTokenExpires).getTime(),
+          'refreshToken': obj.refresh_token,
+          'refreshTokenExpires': new Date(obj.refreshTokenExpires).getTime(),
+          'userId': obj.user.id
+        };
+
+        return next();
+      });
+    } else {
+      return next();
+    }
+  } else {
+    req.session.loginData = null;
+    return next();
+  }
+});
+
 /* Bind routes */
 app.use('/',              require('./routes/index.js'));
 app.use('/conferences',   require('./routes/conferences.js'));
 app.use('/documents',     require('./routes/documents.js'));
 app.use('/announcements', require('./routes/announcements.js'));
 app.use('/venues',        require('./routes/venues.js'));
+app.use('/organizers',    require('./routes/organizers.js'));
+app.use('/speakers',      require('./routes/speakers.js'));
+app.use('/users',         require('./routes/users.js'));
 
 /* Run the server */
 app.listen(config.http.port, function (err) {

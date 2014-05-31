@@ -60,9 +60,9 @@ app.post('/login', function (req, res) {
 			} else {
 				req.session.loginData = {
 					'accessToken': obj.access_token,
-					'accessTokenExpires': new Date(obj.access_token_expires),
+					'accessTokenExpires': new Date(obj.access_token_expires).getTime(),
 					'refreshToken': obj.refresh_token,
-					'refreshTokenExpires': new Date(obj.refresh_token_expires),
+					'refreshTokenExpires': new Date(obj.refresh_token_expires).getTime(),
 					'userId': obj.user.id
 				};
 				res.redirect('/conferences');
@@ -70,7 +70,6 @@ app.post('/login', function (req, res) {
 		});
 	}
 });
-
 
 /* ============== */
 /* === SIGNUP === */
@@ -124,22 +123,57 @@ app.get('/logout', function(req, res) {
 });
 
 app.post('/logout', function (req, res){
-	console.log('LOGIN');
-	client.post({
-		path: '/auth/logout', 
-		headers: {authorization: 'Token ' + req.session.loginData.accessToken}
-	}, {}, function (err, areq, ares, obj) {
-		console.log('ERROR: %s', err);
-		console.dir(obj);
-		req.session.loginData = null;
+	console.log('LOGOUT');
+	if (req.session.loginData){
+		client.post({
+			path: '/auth/logout', 
+			headers: {authorization: 'Token ' + req.session.loginData.accessToken}
+		}, {}, function (err, areq, ares, obj) {
+			console.dir(obj);
+			req.session.loginData = null;
+			res.redirect('/');
+		});
+	} else {
 		res.redirect('/');
-	});
+	}
 });
 
 /* ==================== */
 /* =====DASHBOARD====== */
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', function (req, res) {
    res.render('index/dashboard');
 });
+
+
+/* ============== */
+/* === REDEEM === */
+app.get('/redeem', function (req, res) {
+
+	res.render('index/redeem', {
+		'data': {
+			'code': req.query.code
+		}
+	})
+});
+
+app.post('/redeem', function (req, res) {
+	if (!req.session.loginData) {
+		return res.redirect('/login');
+	}
+
+	client.post({
+		path: '/invite-codes/' + req.body.code + '/redeem', 
+		headers: {authorization: 'Token ' + req.session.loginData.accessToken}
+	}, {}, function (err, areq, ares, obj) {
+		if (err) {
+			req.flash('error', 'Could not redeem code: ' + err);
+			return res.redirect('/redeem?code=' + req.body.code);
+		}
+
+		req.flash('success', 'Code redeemed successfully');
+		res.redirect('/conferences');
+	});
+})
+
 
 module.exports = app;

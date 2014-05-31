@@ -1,0 +1,35 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      .pull-right
+        a.btn.btn-default(href=("/organizers/new?conference="+conference.id))
+          i.fa.fa-plus
+          | &nbsp; Add Organizer
+
+      h4 Organizers
+
+      .clearfix
+
+    .panel-body.
+      This is the list of organizers of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Name           
+        th Origin
+        th Details
+        th Group
+
+      for organizer in conference.organizers
+        tr
+          td= organizer.name
+          td= organizer.origin
+          td= organizer.details
+          td= organizer.group
+
+      else
+        tr
+          td(colspan="3") No organizers found

@@ -1,0 +1,31 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 New Conference
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/users/invite")
+
+        input(type="hidden" name="conference" value=conference.id)
+          
+        .form-group
+          label.col-sm-2(for="user-name") Name
+          .col-sm-10
+            input#user-name.form-control(type="text" name="name" value=(data.name ? data.name : null) placeholder="Recipient's Name")
+
+        .form-group
+          label.col-sm-2(for="user-email") Description
+          .col-sm-10
+            input#user-email.form-control(type="email" name="email" value=(data.email ? data.email : null) placeholder="Recipient's E-Mail")
+
+        .panel.panel-warning.
+          An e-mail will be sent to the specified address with an invitation code. This code must be redeemed by the
+          recipient while logged in to MyConferece. If he/she doesn't have an account, he/she will be given the opportunity
+          to register a new one.
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Invite User

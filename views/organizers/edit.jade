@@ -1,0 +1,36 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 Add Organizer
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/organizers/new")
+
+        input(type="hidden" name="conference" value=conference.id)
+
+        .form-group
+          label.col-sm-2(for="organizer-name") Name
+          .col-sm-10
+            input#organizer-name.form-control(type="text" name="name" value=(data.name ? data.name : null) placeholder="Organizer Name")
+
+        .form-group
+          label.col-sm-2(for="organizer-origin") Origin
+          .col-sm-10
+            input#organizer-origin.form-control(type="text" name="origin" value=(data.origin ? data.origin : null) placeholder="Organizer Origin")
+
+        .form-group
+          label.col-sm-2(for="organizer-details") Details
+          .col-sm-10
+            input#organizer-details.form-control(type="text" name="details" value=(data.details ? data.details : null) placeholder="Organizer Details")
+
+        .form-group
+          label.col-sm-2(for="organizer-group") Group
+          .col-sm-10
+            input#organizer-group.form-control(type="text" name="group" value=(data.group ? data.group : null) placeholder="Organizer Group")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Add Organizer
