@@ -18,14 +18,14 @@ block contents
 
     table.table.table-striped.table-bordered
       tr
-        th Name
-        tr
-          td(colspan="3") No users found
+        th ID
+        th Role
 
-      //for user in conference.users
+      for user in conference.users
         tr
-          td= user.name
+          td= user.id
+          td= user.role
 
-      //else
+      else
         tr
           td(colspan="3") No users found

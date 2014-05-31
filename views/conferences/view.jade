@@ -4,10 +4,12 @@ block contents
   h1= conference.name
   p= conference.description
 
-  .panel.panel-danger
 
-    .panel-heading: h4 Danger Zone
-    
-    .panel.body
-      form(action=("/conferences/"+conference.id+"/delete") method="post")
-        button.btn.btn-danger(type="submit") Delete Conference
+  if conference.role == 'owner'
+    .panel.panel-danger
+
+      .panel-heading: h4 Danger Zone
+      
+      .panel.body
+        form(action=("/conferences/"+conference.id+"/delete") method="post")
+          button.btn.btn-danger(type="submit") Delete Conference
