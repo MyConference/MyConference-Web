@@ -51,7 +51,7 @@ app.post('/new', function (req,res, next) {
     'conference':  req.body.conference,
     'title':       req.body.title,
     'description': req.body.description,
-    'type':        req.body.type,
+    'type':        'link',
     'data':        req.body.data
 
   }, function (err, areq, ares, obj) {

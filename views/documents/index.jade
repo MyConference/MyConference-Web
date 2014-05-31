@@ -20,14 +20,14 @@ block contents
       tr
         th Title
         th Description
-        th Type
+        //th Type
         th Data
 
       for doc in conference.documents
         tr
           td= doc.title
           td= doc.description
-          td= doc.type
+          //td= doc.type
           if doc.type == 'link'
             td: a(href=doc.data target="_blank")= doc.data
           else 
