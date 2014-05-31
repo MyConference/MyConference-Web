@@ -68,15 +68,16 @@ app.use(express.urlencoded());
 /* Initialization for every request */
 app.use(function (req, res, next) {
 	res.locals.flash = req.flash.bind(req);
-    res.locals.session = req.session;
+  res.locals.config = config;
+  res.locals.session = req.session;
 
-    if (!req.session.device) {
-        req.session.device = uuid.v4();
-    }
+  if (!req.session.device) {
+      req.session.device = uuid.v4();
+  }
 
-    if (!req.session.lastBody) {
-        req.session.lastBody = {};
-    }
+  if (!req.session.lastBody) {
+      req.session.lastBody = {};
+  }
 
 	next();
 });

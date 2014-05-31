@@ -7,7 +7,7 @@ block contents
       h4 Add Speaker
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/speakers/new")
+      form#speaker-form.form-horizontal(role="form" method="post" action="/speakers/new")
 
         input(type="hidden" name="conference" value=conference.id)
 
@@ -32,5 +32,33 @@ block contents
             input#speaker-description.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Speaker Description")
 
         .form-group
+          label.col-sm-2(for="speaker-picture") Picture
+          .col-sm-10
+            .fileinput.fileinput-new(data-provides="fileinput")
+              .fileinput-preview.thumbnail(data-trigger="fileinput" style="width: 160px; height: 200px;")
+                img(src="http://placehold.it/160x200")
+              div
+                span.btn.btn-default.btn-file
+                  span.fileinput-new Select image
+                  span.fileinput-exists Change
+                  input#speaker-picture(type="file" name="picture")
+                a.btn.btn-default.fileinput-exists(data-dismiss="fileinput") Remove
+        
+        .form-group
           .col-sm-offset-2.col-sm-10
             button.btn.btn-default(type="submit") Add Speaker
+
+  script(type="text/javascript")
+    | $(function(){
+    |   $('#speaker-form').transloadit({
+    |     'wait': true,
+    |     'autoSubmit': true,
+    |     'triggerUploadOnFileSelection': false,
+    |     'params': {
+    |       'auth': {'key': '
+    != config.transloadit.auth_key
+    |   '},
+    |       'template_id': 'cbbaca60e89e11e3836065a40bbc00c0'
+    |     }
+    |   });
+    | });

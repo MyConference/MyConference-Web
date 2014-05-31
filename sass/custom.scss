@@ -1,0 +1,48 @@
+@mixin myconf-custom ($base-color, $style) {
+  @if ($style == light) {
+    $bg-color:     lighten($base-color, 5%);
+    $border-color: lighten($base-color, 10%);
+    $text-color:   darken($base-color, 40%);
+    $hover-color:  darken($base-color, 70%);
+
+  } @else {
+    $bg-color:     darken($base-color, 5%);
+    $border-color: darken($base-color, 10%);
+    $text-color:   lighten($base-color, 40%);
+    $hover-color:  lighten($base-color, 70%);
+
+  }
+
+
+  /* Navbar color */
+  .navbar-inverse {
+    background-color: $bg-color;
+    border-color: $border-color;
+
+    .navbar-brand, .navbar-nav li, .navbar-nav li a, .navbar-link {
+      color: $text-color;
+    }
+
+    a:hover, .navbar-nav li a:hover, .navbar-link:hover {
+      color: $hover-color;
+    }
+  }
+
+  /* Preview color */
+  .preview-box {
+    background-color: darken($base-color, 5%);
+    border-color: darken($base-color, 10%);
+    color: lighten($base-color, 40%);
+  }
+}
+
+body.myconference-lblue   { @include myconf-custom(#3be, light); }
+body.myconference-dblue   { @include myconf-custom(#09c, dark); }
+body.myconference-lpurple { @include myconf-custom(#a6c, light); }
+body.myconference-dpurple { @include myconf-custom(#93c, dark); }
+body.myconference-lgreen  { @include myconf-custom(#9c0, light); }
+body.myconference-dgreen  { @include myconf-custom(#690, dark); }
+body.myconference-lyellow { @include myconf-custom(#fb3, light); }
+body.myconference-dyellow { @include myconf-custom(#f80, dark); }
+body.myconference-lred    { @include myconf-custom(#f44, light); }
+body.myconference-dred    { @include myconf-custom(#c00, dark); }

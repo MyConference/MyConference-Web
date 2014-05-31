@@ -52,7 +52,8 @@ app.post('/new', function (req,res, next) {
     'name': req.body.name,
     'origin': req.body.origin,
     'charge': req.body.charge,
-    'description': req.body.description
+    'description': req.body.description,
+    'picture_url': JSON.parse(req.body.transloadit).results.resize_xxhdpi[0].ssl_url
 
   }, function (err, areq, ares, obj) {
     if (err) {
