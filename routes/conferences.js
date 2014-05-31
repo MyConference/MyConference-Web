@@ -161,6 +161,7 @@ app.get('/:id/announcements', function (req, res, next) {
       res.render('announcements/index', {
         'conference': obj
       });
+      console.dir(obj)
     }
   });
 });

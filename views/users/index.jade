@@ -4,10 +4,11 @@ block contents
   .panel.panel-default
 
     .panel-heading
-      .pull-right
-        a.btn.btn-default(href=("/users/invite?conference="+conference.id))
-          i.fa.fa-plus
-          | &nbsp; Invite User
+      if conference.role == 'owner'
+        .pull-right
+          a.btn.btn-default(href=("/users/invite?conference="+conference.id))
+            i.fa.fa-plus
+            | &nbsp; Invite User
 
       h4 Users
 

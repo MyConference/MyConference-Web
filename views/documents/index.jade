@@ -4,10 +4,11 @@ block contents
   .panel.panel-default
 
     .panel-heading
-      .pull-right
-        a.btn.btn-default(href=("/documents/new?conference="+conference.id))
-          i.fa.fa-plus
-          | &nbsp; Add Document
+      if conference.role == 'owner' || conference.role == 'collaborator'
+        .pull-right
+          a.btn.btn-default(href=("/documents/new?conference="+conference.id))
+            i.fa.fa-plus
+            | &nbsp; Add Document
 
       h4 Documents
 

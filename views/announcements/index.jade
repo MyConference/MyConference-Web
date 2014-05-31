@@ -3,11 +3,14 @@ extends ../layout
 block contents
   .panel.panel-default
 
+    
     .panel-heading
-      .pull-right
-        a.btn.btn-default(href=("/announcements/new?conference="+conference.id))
-          i.fa.fa-plus
-          | &nbsp; Add Announcement
+      - console.log(conference.role)
+      if conference.role == 'owner'
+        .pull-right
+          a.btn.btn-default(href=("/announcements/new?conference="+conference.id))
+            i.fa.fa-plus
+              | &nbsp; Add Announcement
 
       h4 Announcements
 
