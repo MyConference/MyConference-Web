@@ -22,9 +22,29 @@ block contents
             input#description-body.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Event Description")
 
         .form-group
-          label.col-sm-2(for="event-date") Date
+          label.col-sm-2(for="event-day") Day
           .col-sm-10
-            input#date-body.form-control(type="text" name="date" value=(data.date ? data.date : null) placeholder="Event Date")
+            input#day-body.form-control(type="text" name="day" value=(data.day ? data.day : null) placeholder="Event Day")
+
+        .form-group
+          label.col-sm-2(for="event-month") Month
+          .col-sm-10
+            input#month-body.form-control(type="text" name="month" value=(data.month ? data.month : null) placeholder="Event Month")
+
+        .form-group
+          label.col-sm-2(for="event-year") Year
+          .col-sm-10
+            input#year-body.form-control(type="text" name="year" value=(data.year ? data.year : null) placeholder="Event Year")
+
+        .form-group
+          label.col-sm-2(for="event-hour") Hour
+          .col-sm-10
+            input#hour-body.form-control(type="text" name="hour" value=(data.hour ? data.hour : null) placeholder="Event Hour")
+
+        .form-group
+          label.col-sm-2(for="event-minutes") Minutes
+          .col-sm-10
+            input#minutes-body.form-control(type="text" name="minutes" value=(data.minutes ? data.minutes : null) placeholder="Event Minutes")
 
         .form-group
           .col-sm-offset-2.col-sm-10
