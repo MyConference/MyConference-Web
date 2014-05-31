@@ -135,6 +135,7 @@ app.use('/venues',        require('./routes/venues.js'));
 app.use('/organizers',    require('./routes/organizers.js'));
 app.use('/speakers',      require('./routes/speakers.js'));
 app.use('/users',         require('./routes/users.js'));
+app.use('/agenda',         require('./routes/agenda.js'));
 
 /* Run the server */
 app.listen(config.http.port, function (err) {

@@ -1,0 +1,31 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    .panel-heading
+      h4 Add Event
+
+    .panel-body
+      form.form-horizontal(role="form" method="post" action="/agenda/new")
+
+        input(type="hidden" name="conference" value=conference.id)
+
+        .form-group
+          label.col-sm-2(for="event-title") Title
+          .col-sm-10
+            input#event-title.form-control(type="text" name="title" value=(data.title ? data.title : null) placeholder="Event Title")
+
+        .form-group
+          label.col-sm-2(for="event-description") Description
+          .col-sm-10
+            input#description-body.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Event Description")
+
+        .form-group
+          label.col-sm-2(for="event-date") Date
+          .col-sm-10
+            input#date-body.form-control(type="text" name="date" value=(data.date ? data.date : null) placeholder="Event Date")
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-default(type="submit") Add Event

@@ -161,7 +161,25 @@ app.get('/:id/announcements', function (req, res, next) {
       res.render('announcements/index', {
         'conference': obj
       });
-      console.dir(obj)
+    }
+  });
+});
+
+app.get('/:id/agenda', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      res.render('agenda/index', {
+        'conference': obj
+      });
     }
   });
 });

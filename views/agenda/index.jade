@@ -1,0 +1,36 @@
+extends ../layout
+
+block contents
+  .panel.panel-default
+
+    
+    .panel-heading
+      if conference.role == 'owner' || conference.role == 'collaborator'
+        .pull-right
+          a.btn.btn-default(href=("/agenda/new?conference="+conference.id))
+            i.fa.fa-plus
+              | &nbsp; Add Event
+
+      h4 Agenda
+
+      .clearfix
+
+    .panel-body.
+      This is the list of events of the conference.
+
+    table.table.table-striped.table-bordered
+      tr
+        th Title
+        th Description
+        th Date &amp; Time
+
+      for agenda in conference.agendaEvents
+        - console.dir(agenda)
+        tr
+          td= agenda.title
+          td= agenda.description
+          td= agenda.date
+
+      else
+        tr
+          td(colspan="3") No events found
