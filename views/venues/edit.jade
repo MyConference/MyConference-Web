@@ -79,8 +79,8 @@ block contents
       var address = document.getElementById("venue-address").value;
       geocoder.geocode( {'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          $('#venue-latitude').val(results[0].geometry.location.lat());
-          $('#venue-longitude').val(results[0].geometry.location.lng());
+          $('#venue-latitude').val(results[0].geometry.location.lat().toFixed(6));
+          $('#venue-longitude').val(results[0].geometry.location.lng().toFixed(6));
           gmap.setCenter(results[0].geometry.location);
           updateMap();
           deleteMarkers();
