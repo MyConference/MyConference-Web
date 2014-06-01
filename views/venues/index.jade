@@ -22,6 +22,8 @@ block contents
         th Name
         th Location
         th Details
+        if conference.role == 'owner' || conference.role == 'collaborator'
+          th
 
       for venue in conference.venues
         tr
@@ -33,6 +35,10 @@ block contents
             | &nbsp;&nbsp;
             span.js-latlng(data-latitude=venue.location.lat data-longitude=venue.location.lng)
           td= venue.details
+          if conference.role == 'owner' || conference.role == 'collaborator'
+            td: form(action=("/venues/delete/"+venue.id) method="post")
+                input(type="hidden" name="conference" value=conference.id)
+                button.btn.btn-danger(type="submit") Delete
 
       else
         tr

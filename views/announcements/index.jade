@@ -23,12 +23,18 @@ block contents
         th Title
         th Body
         th Date
+        if conference.role == 'owner' || conference.role == 'collaborator'
+          th
 
       for announcement in conference.announcements
         tr
           td= announcement.title
           td= announcement.body
           td= announcement.date
+          if conference.role == 'owner' || conference.role == 'collaborator'
+            td: form(action=("/announcements/delete/"+announcement.id) method="post")
+                input(type="hidden" name="conference" value=conference.id)
+                button.btn.btn-danger(type="submit") Delete
 
       else
         tr

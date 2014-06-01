@@ -69,5 +69,21 @@ app.post('/new', function (req,res, next) {
 
 });
 
+app.post('/delete/:id', function (req, res, next) {
+  client.del({
+    'path': '/venues/' + req.params.id ,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+    } else {
+      req.flash('success', 'The venue has been successfully removed!')
+    }
+
+    res.redirect('/conferences/' + req.body.conference + '/venues');
+  });
+});
 
 module.exports = app;
