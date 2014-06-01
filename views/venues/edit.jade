@@ -23,10 +23,11 @@ block contents
 
         .form-group
           label.col-sm-2 Location
-          .col-sm-2: input#venue-latitude.form-control(type="text" name="latitude" value=(data.location && data.location.lat ? data.location.lat : null) placeholder="Latitude")
-          .col-sm-2: input#venue-longitude.form-control(type="text" name="longitude" value=(data.location && data.location.lng ? data.location.lng : null) placeholder="Longitude")
-          .col-sm-6: input#venue-address.form-control(type="text" disabled)
+          .col-sm-2: input#venue-latitude.form-control(type="text" name="latitude" placeholder="Latitude")
+          .col-sm-2: input#venue-longitude.form-control(type="text" name="longitude" placeholder="Longitude")
+          .col-sm-6: input#venue-address.form-control(type="text" placeholder="Address")
           .col-sm-10.col-sm-offset-2.gmap-container: #map-canvas.gmap
+          
 
         .form-group
           .col-sm-offset-2.col-sm-10
@@ -52,13 +53,13 @@ block contents
 
         if (results.length) {
           elem.val(results[0].formatted_address);
-          elem.parent().removeClass('has-warning');
+          //elem.parent().removeClass('has-warning');
           updateMap();
 
-        } else {
+        }/* else {
           elem.val('No address found');
           elem.parent().addClass('has-warning');
-        }
+        }*/
       });
     }
 
@@ -72,8 +73,41 @@ block contents
       }
     }
 
+    function updateCoordinates() {
+      var lat = gmap.latLng.lat();
+      var lng = gmap.latLng.lng();
+      // populate yor box/field with lat, lng
+      alert("Lat=" + lat + "; Lng=" + lng);
+    }
+
+    function codeAddress() {
+      var address = document.getElementById("venue-address").value;
+      geocoder.geocode( {'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          $('#venue-latitude').val(results[0].geometry.location.lat());
+          $('#venue-longitude').val(results[0].geometry.location.lng());
+          gmap.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+              map: gmap,
+              position: results[0].geometry.location
+          });
+        }
+      });
+    }
+
     $(function(){
       $('#venue-latitude, #venue-longitude').on('change', updateAddress);
+      $('#venue-address').on('change', codeAddress);
+      $('#map-canvas').on('click', updateCoordinates);
 
-      updateAddress();
+      //updateAddress();
+      //codeAddress();
+      //updateCoordinates();
+ 
+      google.maps.event.addListener(gmap, "click", function(event) {
+        var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        // populate yor box/field with lat, lng
+        alert("Lat=" + lat + "; Lng=" + lng);
+      });
     });

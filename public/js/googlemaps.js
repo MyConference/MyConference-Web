@@ -1,4 +1,5 @@
 var gmap;
+var geocoder = new google.maps.Geocoder();
 if (google) {
   google.load('visualization', '1.0', {'packages':['corechart']});
   
