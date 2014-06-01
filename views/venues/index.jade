@@ -26,9 +26,31 @@ block contents
       for venue in conference.venues
         tr
           td= venue.name
-          td= (venue.location.lat + ', ' + venue.location.lng)
+          td
+            = venue.location.lat
+            | ,&nbsp;
+            = venue.location.lng
+            | &nbsp;&nbsp;
+            span.js-latlng(data-latitude=venue.location.lat data-longitude=venue.location.lng)
           td= venue.details
 
       else
         tr
           td(colspan="3") No venues found
+
+  script.
+    $(function(){
+      $('.js-latlng').each(function(i, e){
+        var elem = $(e);
+
+        var lat = elem.attr('data-latitude');
+        var lng = elem.attr('data-longitude');
+
+        $.ajax({
+          url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&sensor=false',
+          dataType: 'json'
+        }).done(function (json) {
+          elem.html('(' + json.results[0].formatted_address + ')');
+        });
+      });
+    });
