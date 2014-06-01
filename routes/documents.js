@@ -65,7 +65,23 @@ app.post('/new', function (req,res, next) {
     }
   });
 
+app.post('/delete/:id', function (req, res, next) {
+  client.del({
+    'path': '/documents/' + req.params.id ,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+    } else {
+      req.flash('success', 'The document has been successfully removed!')
+    }
+
+    res.redirect('/conferences/' + req.body.conference + '/documents');
+  });
 });
 
+});
 
 module.exports = app;

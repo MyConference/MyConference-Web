@@ -23,6 +23,8 @@ block contents
         th Description
         //th Type
         th Data
+        if conference.role == 'owner' || conference.role == 'collaborator'
+          th
 
       for doc in conference.documents
         tr
@@ -33,6 +35,9 @@ block contents
             td: a(href=doc.data target="_blank")= doc.data
           else 
             td= 'Unrecognized document type'
+          if conference.role == 'owner' || conference.role == 'collaborator'
+            td: form.navbar-form(action=("/documents/delete/"+doc.id) method="post")
+                button.btn.btn-danger(type="submit") Delete
 
       else
         tr
