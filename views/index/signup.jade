@@ -1,8 +1,25 @@
 extends ../layout
 
 block contents
-	form(action="/signup" method="post")
-		input(name="email" type="email" size="25" placeholder="email")
-		input(name="password" type="password" size="25" placeholder="password")
-		input(name="repeat_password" type="password" size="25" placeholder="repeat password")
-		button(type="submit") Sign up
+  .panel.panel-default
+
+    .panel-heading
+      h4 Sign up
+
+    .panel-body 
+      form.form-horizontal(action="/signup" method="post" role="form")
+        .form-group
+          label.col-sm-2(for="email-label") E-mail
+          .col-sm-10
+            input.form-control(name="email" type="email" placeholder="E-Mail" value=(session.lastBody.email || ''))
+        .form-group
+          label.col-sm-2(for="password-label") Password
+          .col-sm-10
+            input.form-control(name="password" type="password" placeholder="Password" size="25")
+        .form-group
+          label.col-sm-2(for="repeat-password-label") Repeat password
+          .col-sm-10
+            input.form-control(name="repeat_password" type="password" placeholder="Repeat password" size="25")
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type="submit") Sign up
