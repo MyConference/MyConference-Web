@@ -53,13 +53,15 @@ block contents
 
         if (results.length) {
           elem.val(results[0].formatted_address);
-          //elem.parent().removeClass('has-warning');
           updateMap();
-
-        }/* else {
-          elem.val('No address found');
-          elem.parent().addClass('has-warning');
-        }*/
+          updateMap();
+          deleteMarkers();
+          var marker = new google.maps.Marker({
+              map: gmap,
+              position: results[0].geometry.location
+          });
+          markers.push(marker);
+        }
       });
     }
 
@@ -74,40 +76,31 @@ block contents
     }
 
     function updateCoordinates() {
-      var lat = gmap.latLng.lat();
-      var lng = gmap.latLng.lng();
-      // populate yor box/field with lat, lng
-      alert("Lat=" + lat + "; Lng=" + lng);
-    }
-
-    function codeAddress() {
       var address = document.getElementById("venue-address").value;
       geocoder.geocode( {'address': address}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           $('#venue-latitude').val(results[0].geometry.location.lat());
           $('#venue-longitude').val(results[0].geometry.location.lng());
           gmap.setCenter(results[0].geometry.location);
+          updateMap();
+          deleteMarkers();
           var marker = new google.maps.Marker({
               map: gmap,
               position: results[0].geometry.location
           });
+          markers.push(marker);
         }
       });
     }
 
-    $(function(){
-      $('#venue-latitude, #venue-longitude').on('change', updateAddress);
-      $('#venue-address').on('change', codeAddress);
-      $('#map-canvas').on('click', updateCoordinates);
+    function deleteMarkers() {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(null);
+      }
+      markers = [];
+    }
 
-      //updateAddress();
-      //codeAddress();
-      //updateCoordinates();
- 
-      google.maps.event.addListener(gmap, "click", function(event) {
-        var lat = event.latLng.lat();
-        var lng = event.latLng.lng();
-        // populate yor box/field with lat, lng
-        alert("Lat=" + lat + "; Lng=" + lng);
-      });
+    $(function(){
+      $('#venue-latitude, #venue-longitude').on('keyup', updateAddress);
+      $('#venue-address').on('keyup', updateCoordinates);
     });
