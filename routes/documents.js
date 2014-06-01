@@ -64,6 +64,7 @@ app.post('/new', function (req,res, next) {
       res.redirect('/conferences/' + req.body.conference + '/documents');
     }
   });
+});
 
 app.post('/delete/:id', function (req, res, next) {
   client.del({
@@ -80,8 +81,6 @@ app.post('/delete/:id', function (req, res, next) {
 
     res.redirect('/conferences/' + req.body.conference + '/documents');
   });
-});
-
 });
 
 module.exports = app;
