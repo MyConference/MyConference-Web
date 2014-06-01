@@ -110,7 +110,49 @@ app.post('/signup', function (req, res) {
 				res.redirect('/signup');
 			} else {
 				req.flash('success', 'Success signup');
-				res.redirect('/login');
+				//res.redirect('/login');
+
+        //Log in
+        if (!req.body.email) {
+          req.flash('error', 'Enter your Email below');
+          res.redirect('/login');
+
+        } else if (!req.body.password) {
+          req.flash('error', 'Enter your Password below');
+          res.redirect('/login');
+
+        } else {
+          client.post('/auth', {
+            'application_id' : config.application,
+            'device_id' : req.session.device,
+            'credentials' : {
+              'type' : 'password',
+              'email' : req.body.email,
+              'password' : req.body.password
+            }
+          }, function (err, areq, ares, obj) {
+            console.log('ERROR: %s', err);
+            console.dir(obj);
+            if (err) {
+              if (obj.code == "invalid_email_or_password"){
+                req.flash('error', 'Wrong email or password');
+              } else {
+                req.flash('error', 'Unknown login error (' + obj.code + ')')
+              }
+              res.redirect('/login');
+
+            } else {
+              req.session.loginData = {
+                'accessToken': obj.access_token,
+                'accessTokenExpires': new Date(obj.access_token_expires).getTime(),
+                'refreshToken': obj.refresh_token,
+                'refreshTokenExpires': new Date(obj.refresh_token_expires).getTime(),
+                'userId': obj.user.id
+              };
+              res.redirect('/conferences');
+            }
+          });
+        }
 			}
 		});
 	}
