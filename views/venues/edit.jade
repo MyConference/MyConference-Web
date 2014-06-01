@@ -34,20 +34,46 @@ block contents
 
 
   script.
-    $(function(){
-      $('#venue-latitude, #venue-longitude').on('change', function(i, e){
-        var lat = $('#venue-latitude').val();
-        var lng = $('#venue-longitude').val();
-
-        $.ajax({
-          url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&sensor=false',
-          dataType: 'json'
-        }).done(function (json) {
-          console.log(json);
-
-          if (json.results.length > 0) {
-            $('#venue-address').val(json.results[0].formatted_address);
-          }
-        });
+    function reverseGeocode (lat, lng, cb) {
+      $.ajax({
+        url: 'http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng + '&sensor=false',
+        dataType: 'json'
+      }).done(function (json) {
+        cb(json.results);
       });
+    }
+
+    function updateAddress () {
+      var lat = $('#venue-latitude').val();
+      var lng = $('#venue-longitude').val();
+
+      reverseGeocode(lat, lng, function (results) {
+        var elem = $('#venue-address');
+
+        if (results.length) {
+          elem.val(results[0].formatted_address);
+          elem.parent().removeClass('has-warning');
+          updateMap();
+
+        } else {
+          elem.val('No address found');
+          elem.parent().addClass('has-warning');
+        }
+      });
+    }
+
+    function updateMap () {
+      var lat = $('#venue-latitude').val();
+      var lng = $('#venue-longitude').val();
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+        gmap.setZoom(15);
+        gmap.panTo({'lat': Number(lat), 'lng': Number(lng)});
+      }
+    }
+
+    $(function(){
+      $('#venue-latitude, #venue-longitude').on('change', updateAddress);
+
+      updateAddress();
     });
