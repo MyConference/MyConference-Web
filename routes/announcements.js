@@ -81,7 +81,7 @@ app.post('/delete/:id', function (req, res, next) {
       req.flash('success', 'The annnoucement has been successfully removed!')
     }
 
-    res.redirect('/conferences/' + req.body.conference + '/annoucements');
+    res.redirect('/conferences/' + req.body.conference + '/announcements');
   });
 });
 
