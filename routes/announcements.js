@@ -78,7 +78,7 @@ app.post('/delete/:id', function (req, res, next) {
     if (err) {
       req.flash('error', err);
     } else {
-      req.flash('success', 'The annnoucement has been successfully removed!')
+      req.flash('success', 'The annnouncement has been successfully removed!')
     }
 
     res.redirect('/conferences/' + req.body.conference + '/announcements');

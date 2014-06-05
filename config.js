@@ -15,7 +15,8 @@ conf.mongo = {
 conf.transloadit = {
   'auth_key':   process.env.TRANSLOADIT_AUTH_KEY,
   'secret_key': process.env.TRANSLOADIT_SECRET_KEY,
-  'url':        process.env.TRANSLOADIT_URL
+  'url':        process.env.TRANSLOADIT_URL,
+  'template_speakers': process.env.TRANSLOADIT_TEMPLATE_SPEAKERS
 }
 
 conf.apiUrl = process.env.API_URL || 'http://localhost:4321';
