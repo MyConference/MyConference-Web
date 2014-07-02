@@ -22,7 +22,7 @@ block contents
         th Name
         th Description
         th Role
-        th
+        th(colspan="2")
 
       for conference in conferences
         tr
@@ -32,6 +32,8 @@ block contents
           if conference.role == 'owner'
             td: form.navbar-form(action=("/conferences/"+conference.id+"/delete") method="post")
                 button.btn.btn-danger(type="submit") Delete
+            td: form.navbar-form(action=("/conferences/"+conference.id+"/edit") method="get")
+                button.btn.btn-primary(type="submit") Edit
 
       else
         tr

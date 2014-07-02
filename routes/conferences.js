@@ -52,7 +52,7 @@ app.post('/new', function (req, res, next) {
 
   if (!name) {
     req.flash('error', 'You must specify a conference name');
-    return res.render('conferences-new', {
+    return res.render('conferences/edit', {
       'data': {
         'name': name,
         'description': description
@@ -73,7 +73,7 @@ app.post('/new', function (req, res, next) {
     // Display the error if any
     if (err) {
       req.flash('error', 'An error ocurred while saving the conference: ' + obj.code);
-      return res.render('conferences-new', {
+      return res.render('conferences/edit', {
         'data': {
           'name': name,
           'description': description
@@ -104,6 +104,68 @@ app.get('/:id', function (req, res, next) {
         'conference': obj
       });
     }
+  });
+});
+
+app.get('/:id/edit', function (req, res, next) {
+  client.get({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+
+    } else {
+      res.render('conferences/edit', {
+        'data': obj,
+        'edit': true
+      });
+    }
+  });
+});
+
+app.post('/:id/edit', function (req, res, next) {
+  // POST - Check data, then create it
+  var name = req.body.name;
+  var description = req.body.description;
+
+  if (!name) {
+    req.flash('error', 'You must specify a conference name');
+    return res.render('conferences/edit', {
+      'data': {
+        'name': name,
+        'description': description
+      }
+    });
+  }
+
+  // Everything ok -- POST!
+  client.patch({
+    'path': '/conferences/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, {
+    'name': name,
+    'description': description
+  }, function (err, areq, ares, obj) {
+    // Display the error if any
+    if (err) {
+      req.flash('error', 'An error ocurred while saving the conference: ' + obj.code);
+      return res.render('conferences/edit', {
+        'data': {
+          'name': name,
+          'description': description
+        }
+      });
+    }
+
+    // Redirect to conferences and say ok
+    req.flash('success', 'Conference created successfully!');
+    return res.redirect('/conferences');
   });
 });
 
