@@ -164,7 +164,7 @@ app.post('/:id/edit', function (req, res, next) {
     }
 
     // Redirect to conferences and say ok
-    req.flash('success', 'Conference created successfully!');
+    req.flash('success', 'Conference modified successfully!');
     return res.redirect('/conferences');
   });
 });
