@@ -5,6 +5,10 @@ block contents
   p= conference.description
 
 
+  if conference.role == 'owner' || conference.role == 'collaborator'
+    form.navbar-form(action=("/conferences/"+conference.id+"/edit") method="get")
+      button.btn.btn-primary(type="submit") Edit Conference
+
   if conference.role == 'owner'
     .panel.panel-danger
 
