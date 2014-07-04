@@ -38,6 +38,7 @@ app.use(express.cookieParser('d00eed0632844a4ead6939d9dd49bde5ae0e1f3a609d5'));
 app.use(express.session({
     cookie: { maxAge: 7 * 86400 * 1000 },
     salt: '2af705ba6fd940b3abd6b4e7cdcc0f355a1ea15707c642b78bd2529f72f3d071',
+    secret: 'c9686a4c33b6438ebfe57804ee54a0a5',
     store: new MongoStore({
         url: config.mongo.url
     })
@@ -88,8 +89,8 @@ app.use(function (req, res, next) {
     return next();
   }
 
-  if(Date.now() < req.session.loginData.refreshTokenExpires){
-    if(Date.now() >= req.session.loginData.accessTokenExpires){
+  if (Date.now() < req.session.loginData.refreshTokenExpires){
+    if (Date.now() >= req.session.loginData.accessTokenExpires){
       console.dir(req.session); 
       client.post('/auth', {
         'application_id' : config.application,
