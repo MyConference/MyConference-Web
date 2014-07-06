@@ -96,7 +96,7 @@ app.post('/:id/edit', function (req, res, next) {
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
-  }, {,
+  }, {
     'name':       req.body.name,
     'location': {
       'lat':      req.body.latitude,
