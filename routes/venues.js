@@ -81,6 +81,9 @@ app.get('/:id/edit', function (req, res, next) {
       res.redirect('/');
 
     } else {
+      obj.latitude = obj.location.lat;
+      obj.longitude = obj.location.lng;
+      
       res.render('venues/edit', {
         'data': obj,
         'edit': true

@@ -15,17 +15,17 @@ block contents
         .form-group
           label.col-sm-2(for="venue-title") Name
           .col-sm-10
-            input#venue-title.form-control(type="text" name="name" value=(data.name ? data.name : null) placeholder="Venue Name")
+            input#venue-title.form-control(type="text" name="name" value=(data.name || null) placeholder="Venue Name")
 
         .form-group
           label.col-sm-2(for="venue-details") Details
           .col-sm-10
-            input#venue-details.form-control(type="text" name="details" value=(data.details ? data.details : null) placeholder="Venue Details")
+            input#venue-details.form-control(type="text" name="details" value=(data.details || null) placeholder="Venue Details")
 
         .form-group
           label.col-sm-2 Location
-          .col-sm-2: input#venue-latitude.form-control(type="text" name="latitude" placeholder="Latitude")
-          .col-sm-2: input#venue-longitude.form-control(type="text" name="longitude" placeholder="Longitude")
+          .col-sm-2: input#venue-latitude.form-control(type="text" name="latitude" placeholder="Latitude" value=(data.latitude || null) )
+          .col-sm-2: input#venue-longitude.form-control(type="text" name="longitude" placeholder="Longitude" value=(data.longitude || null) )
           .col-sm-6: input#venue-address.form-control(type="text" placeholder="Address")
           .col-sm-10.col-sm-offset-2.gmap-container: #map-canvas.gmap
           
@@ -108,4 +108,5 @@ block contents
     $(function(){
       $('#venue-latitude, #venue-longitude').on('keyup', updateAddress);
       $('#venue-address').on('keyup', updateCoordinates);
+      updateAddress();
     });

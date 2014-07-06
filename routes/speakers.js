@@ -90,6 +90,8 @@ app.get('/:id/edit', function (req, res, next) {
 
 
 app.post('/:id/edit', function (req, res, next) {
+  var tldit = JSON.parse(req.body.transloadit);
+
   client.patch({
     'path': '/speakers/' + req.params.id,
     'headers': {
@@ -100,8 +102,8 @@ app.post('/:id/edit', function (req, res, next) {
     'origin': req.body.origin,
     'charge': req.body.charge,
     'description': req.body.description,
-    'picture_url': req.body.transloadit
-                   ? JSON.parse(req.body.transloadit).results.resize_xxhdpi[0].ssl_url
+    'picture_url': tldit && tldit.results && tldit.results.length
+                   ? tldit.results.resize_xxhdpi[0].ssl_url
                    : undefined
 
   }, function (err, areq, ares, obj) {
