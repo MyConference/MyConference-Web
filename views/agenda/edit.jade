@@ -7,9 +7,10 @@ block contents
       h4 Add Event
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/agenda/new")
+      form.form-horizontal(role="form" method="post" action=(edit ? "/agenda/"+data.id+"/edit" : "/agenda/new"))
 
-        input(type="hidden" name="conference" value=conference.id)
+        if !edit
+          input(type="hidden" name="conference" value=conference.id)
 
         .form-group
           label.col-sm-2(for="event-title") Title
@@ -48,4 +49,8 @@ block contents
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Event
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create

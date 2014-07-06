@@ -70,7 +70,7 @@ app.post('/new', function (req,res, next) {
 
 app.get('/:id/edit', function (req, res, next) {
   client.get({
-    'path': '/agenda/' + req.params.id,
+    'path': '/agenda-events/' + req.params.id,
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
@@ -84,6 +84,30 @@ app.get('/:id/edit', function (req, res, next) {
         'data': obj,
         'edit': true
       });
+    }
+  });
+});
+
+
+app.post('/:id/edit', function (req, res, next) {
+  client.patch({
+    'path': '/agenda-events/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, {
+    'title':       req.body.title,
+    'description': req.body.description,
+    'date':        new Date(req.body.year, req.body.month, req.body.day, req.body.hour, req.body.minutes, 0, 0).toISOString()
+
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      req.flash('success', 'Event <strong>' + obj.title + '</strong> modified successfully');
+      res.redirect('/conferences/' + obj.conference.id + '/agenda');
     }
   });
 });
