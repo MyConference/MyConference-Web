@@ -23,7 +23,7 @@ block contents
         th Location
         th Details
         if conference.role == 'owner' || conference.role == 'collaborator'
-          th
+          th(colspan="2")
 
       for venue in conference.venues
         tr
@@ -39,6 +39,9 @@ block contents
             td: form(action=("/venues/delete/"+venue.id) method="post")
                 input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-danger(type="submit") Delete
+            td: form.navbar-form(action=("/venues/"+venue.id+"/edit") method="get")
+                input(type="hidden" name="conference" value=conference.id)
+                button.btn.btn-primary(type="submit") Edit
 
       else
         tr
