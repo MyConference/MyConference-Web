@@ -68,6 +68,26 @@ app.post('/new', function (req,res, next) {
 
 });
 
+app.get('/:id/edit', function (req, res, next) {
+  client.get({
+    'path': '/speakers/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+
+    } else {
+      res.render('speakers/edit', {
+        'data': obj,
+        'edit': true
+      });
+    }
+  });
+});
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/speakers/' + req.params.id ,
