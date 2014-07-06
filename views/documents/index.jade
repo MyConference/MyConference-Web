@@ -24,7 +24,7 @@ block contents
         //th Type
         th Data
         if conference.role == 'owner' || conference.role == 'collaborator'
-          th
+          th(colspan="2")
 
       for doc in conference.documents
         tr
@@ -35,10 +35,12 @@ block contents
             td: a(href=doc.data target="_blank")= doc.data
           else 
             td= 'Unrecognized document type'
-          if conference.role == 'owner' || conference.role == 'collaborator'
+          if conference.role == 'owner'
             td: form(action=("/documents/delete/"+doc.id) method="post")
                 input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-danger(type="submit") Delete
+            td: form.navbar-form(action=("/documents/"+doc.id+"/edit") method="get")
+                button.btn.btn-primary(type="submit") Edit
 
       else
         tr

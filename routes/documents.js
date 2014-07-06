@@ -15,7 +15,6 @@ app.use(function (req, res, next) {
   }
 });
 
-
 app.get('/new', function (req,res, next) {
   if (!req.query.conference) {
     return res.redirect('/conferences');
@@ -62,6 +61,26 @@ app.post('/new', function (req,res, next) {
     } else {
       req.flash('success', 'Document <strong>' + obj.title + '</strong> created successfully');
       res.redirect('/conferences/' + req.body.conference + '/documents');
+    }
+  });
+});
+
+app.get('/:id/edit', function (req, res, next) {
+  client.get({
+    'path': '/documents/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+
+    } else {
+      res.render('documents/edit', {
+        'data': obj,
+        'edit': true
+      });
     }
   });
 });

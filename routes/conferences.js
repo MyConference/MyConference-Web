@@ -37,7 +37,6 @@ app.get('/', function (req, res, next) {
   });
 }); 
 
-
 app.get('/new', function (req, res, next) {
   // GET - Just render the form
   res.render('conferences/edit', {
