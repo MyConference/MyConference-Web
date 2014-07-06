@@ -88,6 +88,35 @@ app.get('/:id/edit', function (req, res, next) {
   });
 });
 
+
+app.post('/:id/edit', function (req, res, next) {
+  client.patch({
+    'path': '/speakers/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, {
+    'name': req.body.name,
+    'origin': req.body.origin,
+    'charge': req.body.charge,
+    'description': req.body.description,
+    'picture_url': req.body.transloadit
+                   ? JSON.parse(req.body.transloadit).results.resize_xxhdpi[0].ssl_url
+                   : undefined
+
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      req.flash('success', 'Speaker <strong>' + obj.name + '</strong> modified successfully');
+      res.redirect('/conferences/' + obj.conference.id + '/speakers');
+    }
+  });
+});
+
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/speakers/' + req.params.id ,

@@ -112,6 +112,7 @@ app.post('/:id/edit', function (req, res, next) {
   });
 });
 
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/agenda-events/' + req.params.id ,

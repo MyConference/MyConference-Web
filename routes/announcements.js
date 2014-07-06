@@ -88,6 +88,31 @@ app.get('/:id/edit', function (req, res, next) {
   });
 });
 
+
+app.post('/:id/edit', function (req, res, next) {
+  client.patch({
+    'path': '/announcements/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, {
+    'title':      req.body.title,
+    'body':       req.body.body,
+    //'date':       (new Date()).toISOString()
+
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      req.flash('success', 'Announcement <strong>' + obj.title + '</strong> modified successfully');
+      res.redirect('/conferences/' + obj.conference.id + '/announcements');
+    }
+  });
+});
+
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/announcements/' + req.params.id ,

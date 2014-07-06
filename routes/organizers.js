@@ -87,6 +87,32 @@ app.get('/:id/edit', function (req, res, next) {
   });
 });
 
+
+app.post('/:id/edit', function (req, res, next) {
+  client.patch({
+    'path': '/organizers/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, {
+    'name': req.body.name,
+    'origin': req.body.origin,
+    'details': req.body.details,
+    'group': req.body.group
+
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/'); // FIXME infinite redirect loop
+
+    } else {
+      req.flash('success', 'Organizer <strong>' + obj.name + '</strong> modified successfully');
+      res.redirect('/conferences/' + obj.conference.id + '/organizers');
+    }
+  });
+});
+
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/organizers/' + req.params.id ,
