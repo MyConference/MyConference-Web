@@ -7,7 +7,7 @@ block contents
       h4 Add Document
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/documents/new")
+      form.form-horizontal(role="form" method="post" action=(edit ? "/documents/"+data.id+"/edit" : "/documents/new"))
 
         if !edit
           input(type="hidden" name="conference" value=conference.id)
@@ -28,10 +28,14 @@ block contents
             input#document-type.form-control(type="text" name="type" value=(data.type ? data.type : null) placeholder="Document Type")
 
         .form-group
-          label.col-sm-2(for="document-data") Data
+          label.col-sm-2(for="document-data") URL
           .col-sm-10
-            input#document-data.form-control(type="text" name="data" value=(data.data ? data.data : null) placeholder="Document Data")
+            input#document-data.form-control(type="text" name="data" value=(data.data ? data.data : null) placeholder="Document URL")
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Document
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create
