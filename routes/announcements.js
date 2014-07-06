@@ -68,6 +68,26 @@ app.post('/new', function (req,res, next) {
 
 });
 
+app.get('/:id/edit', function (req, res, next) {
+  client.get({
+    'path': '/annoucements/' + req.params.id,
+    'headers': {
+      'authorization': 'Token ' + req.session.loginData.accessToken
+    }
+  }, function (err, areq, ares, obj) {
+    if (err) {
+      req.flash('error', err);
+      res.redirect('/');
+
+    } else {
+      res.render('annoucements/edit', {
+        'data': obj,
+        'edit': true
+      });
+    }
+  });
+});
+
 app.post('/delete/:id', function (req, res, next) {
   client.del({
     'path': '/announcements/' + req.params.id ,
