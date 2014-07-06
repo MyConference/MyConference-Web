@@ -40,6 +40,7 @@ block contents
                 input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-danger(type="submit") Delete
             td: form.navbar-form(action=("/documents/"+doc.id+"/edit") method="get")
+                input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-primary(type="submit") Edit
 
       else
