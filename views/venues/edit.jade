@@ -7,7 +7,7 @@ block contents
       h4 Add Venue
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/venues/new")
+      form.form-horizontal(role="form" method="post" action=(edit ? "/venues/"+data.id+"/edit" : "/venues/new"))
 
         if !edit
           input(type="hidden" name="conference" value=conference.id)
@@ -32,7 +32,11 @@ block contents
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Venue
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create
 
 
   script.

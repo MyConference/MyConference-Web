@@ -7,7 +7,7 @@ block contents
       h4 Add Announcement
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/announcements/new")
+      form.form-horizontal(role="form" method="post" action=(edit ? "/announcements/"+data.id+"/edit" : "/announcements/new"))
 
         if !edit
           input(type="hidden" name="conference" value=conference.id)
@@ -24,4 +24,8 @@ block contents
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Announcement
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create

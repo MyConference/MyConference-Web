@@ -7,7 +7,7 @@ block contents
       h4 Add Organizer
 
     .panel-body
-      form.form-horizontal(role="form" method="post" action="/organizers/new")
+      form.form-horizontal(role="form" method="post" action=(edit ? "/organizers/"+data.id+"/edit" : "/organizers/new"))
 
         if !edit
           input(type="hidden" name="conference" value=conference.id)
@@ -34,4 +34,8 @@ block contents
 
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Organizer
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create

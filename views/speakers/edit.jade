@@ -7,7 +7,7 @@ block contents
       h4 Add Speaker
 
     .panel-body
-      form#speaker-form.form-horizontal(role="form" method="post" action="/speakers/new")
+      form#speaker-form.form-horizontal(role="form" method="post" action=(edit ? "/speakers/"+data.id+"/edit" : "/speakers/new"))
 
         if !edit
           input(type="hidden" name="conference" value=conference.id)
@@ -37,7 +37,7 @@ block contents
           .col-sm-10
             .fileinput.fileinput-new(data-provides="fileinput")
               .fileinput-preview.thumbnail(data-trigger="fileinput" style="width: 160px; height: 200px;")
-                img(src="http://placehold.it/160x200")
+                img(src=(data.picture_url || "http://placehold.it/160x200"))
               div
                 span.btn.btn-default.btn-file
                   span.fileinput-new Select image
@@ -47,7 +47,11 @@ block contents
         
         .form-group
           .col-sm-offset-2.col-sm-10
-            button.btn.btn-default(type="submit") Add Speaker
+            button.btn.btn-default(type="submit")
+              if edit
+                | Save Changes
+              else
+                | Create
 
   script(type="text/javascript")
     | $(function(){

@@ -19,7 +19,8 @@ block contents
 
     table.table.table-striped.table-bordered
       tr
-        th Name           
+        th Name
+        th Picture
         th Origin
         th Charge
         th Description
@@ -29,6 +30,7 @@ block contents
       for speaker in conference.speakers
         tr
           td= speaker.name
+          td: a(href=speaker.picture_url target="_blank"): img(src=speaker.picture_url height="48")
           td= speaker.origin
           td= speaker.charge
           td= speaker.description
