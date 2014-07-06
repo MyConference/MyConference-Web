@@ -70,7 +70,7 @@ app.post('/new', function (req,res, next) {
 
 app.get('/:id/edit', function (req, res, next) {
   client.get({
-    'path': '/annoucements/' + req.params.id,
+    'path': '/announcements/' + req.params.id,
     'headers': {
       'authorization': 'Token ' + req.session.loginData.accessToken
     }
@@ -80,7 +80,7 @@ app.get('/:id/edit', function (req, res, next) {
       res.redirect('/');
 
     } else {
-      res.render('annoucements/edit', {
+      res.render('announcements/edit', {
         'data': obj,
         'edit': true
       });

@@ -35,6 +35,7 @@ block contents
             td: form(action=("/announcements/delete/"+announcement.id) method="post")
                 input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-danger(type="submit") Delete
+
             td: form.navbar-form(action=("/announcements/"+announcement.id+"/edit") method="get")
                 input(type="hidden" name="conference" value=conference.id)
                 button.btn.btn-primary(type="submit") Edit

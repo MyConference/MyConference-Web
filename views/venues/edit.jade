@@ -9,7 +9,8 @@ block contents
     .panel-body
       form.form-horizontal(role="form" method="post" action="/venues/new")
 
-        input(type="hidden" name="conference" value=conference.id)
+        if !edit
+          input(type="hidden" name="conference" value=conference.id)
 
         .form-group
           label.col-sm-2(for="venue-title") Name
