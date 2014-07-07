@@ -42,6 +42,14 @@ app.get('/new', function (req,res, next) {
 });
 
 app.post('/new', function (req,res, next) {
+  var tldit = JSON.parse(req.body.transloadit);
+
+  var pictureUrl = tldit && tldit.results && tldit.results.resize_xxhdpi
+                   ? tldit.results.resize_xxhdpi[0].ssl_url
+                   : undefined;
+
+  console.dir(pictureUrl);
+  
   client.post({
     'path': '/speakers',
     'headers': {
@@ -53,7 +61,7 @@ app.post('/new', function (req,res, next) {
     'origin': req.body.origin,
     'charge': req.body.charge,
     'description': req.body.description,
-    'picture_url': JSON.parse(req.body.transloadit).results.resize_xxhdpi[0].ssl_url
+    'picture_url': pictureUrl
 
   }, function (err, areq, ares, obj) {
     if (err) {
@@ -92,6 +100,12 @@ app.get('/:id/edit', function (req, res, next) {
 app.post('/:id/edit', function (req, res, next) {
   var tldit = JSON.parse(req.body.transloadit);
 
+  var pictureUrl = tldit && tldit.results && tldit.results.resize_xxhdpi
+                   ? tldit.results.resize_xxhdpi[0].ssl_url
+                   : undefined;
+
+  console.dir(pictureUrl);
+
   client.patch({
     'path': '/speakers/' + req.params.id,
     'headers': {
@@ -102,9 +116,7 @@ app.post('/:id/edit', function (req, res, next) {
     'origin': req.body.origin,
     'charge': req.body.charge,
     'description': req.body.description,
-    'picture_url': tldit && tldit.results && tldit.results.length
-                   ? tldit.results.resize_xxhdpi[0].ssl_url
-                   : undefined
+    'picture_url': pictureUrl
 
   }, function (err, areq, ares, obj) {
     if (err) {
