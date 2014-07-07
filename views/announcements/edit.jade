@@ -4,7 +4,12 @@ block contents
   .panel.panel-default
 
     .panel-heading
-      h4 Add Announcement
+      h4
+        if edit
+          | Edit Announcement &nbsp;
+          small= data.id
+        else
+          | Add Announcement
 
     .panel-body
       form.form-horizontal(role="form" method="post" action=(edit ? "/announcements/"+data.id+"/edit" : "/announcements/new"))

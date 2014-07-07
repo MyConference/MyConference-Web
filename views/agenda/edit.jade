@@ -1,10 +1,16 @@
 extends ../layout
 
 block contents
+
   .panel.panel-default
 
     .panel-heading
-      h4 Add Event
+      h4 
+        if edit
+          | Edit Event &nbsp;
+          small= data.id
+        else
+          | Add Event
 
     .panel-body
       form.form-horizontal(role="form" method="post" action=(edit ? "/agenda/"+data.id+"/edit" : "/agenda/new"))
@@ -23,30 +29,12 @@ block contents
             input#description-body.form-control(type="text" name="description" value=(data.description ? data.description : null) placeholder="Event Description")
 
         .form-group
-          label.col-sm-2(for="event-day") Day
+          label.col-sm-2(for="event-day") Date &amp; Time
           .col-sm-10
-            input#day-body.form-control(type="text" name="day" value=(data.day ? data.day : null) placeholder="Event Day")
-
-        .form-group
-          label.col-sm-2(for="event-month") Month
-          .col-sm-10
-            input#month-body.form-control(type="text" name="month" value=(data.month ? data.month : null) placeholder="Event Month")
-
-        .form-group
-          label.col-sm-2(for="event-year") Year
-          .col-sm-10
-            input#year-body.form-control(type="text" name="year" value=(data.year ? data.year : null) placeholder="Event Year")
-
-        .form-group
-          label.col-sm-2(for="event-hour") Hour
-          .col-sm-10
-            input#hour-body.form-control(type="text" name="hour" value=(data.hour ? data.hour : null) placeholder="Event Hour")
-
-        .form-group
-          label.col-sm-2(for="event-minutes") Minutes
-          .col-sm-10
-            input#minutes-body.form-control(type="text" name="minutes" value=(data.minutes ? data.minutes : null) placeholder="Event Minutes")
-
+            #datetime.date(data-date=(data.date || null) data-date-format="YYYY-MM-DD[T]hh:mm:ss.SSS[Z]")
+              input.form-control(type="text" name="datetime" value=(data.date || null) placeholder="Date & Time (ISO)")
+              // span.input-group-addon: i.glyphicon.glyphicon-calendar
+        
         .form-group
           .col-sm-offset-2.col-sm-10
             button.btn.btn-default(type="submit")
@@ -54,3 +42,8 @@ block contents
                 | Save Changes
               else
                 | Create
+
+  script.
+    $(function(){
+      $("#datetime").datetimepicker();
+    });

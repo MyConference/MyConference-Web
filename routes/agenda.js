@@ -53,7 +53,7 @@ app.post('/new', function (req,res, next) {
     'conference':  req.body.conference,
     'title':       req.body.title,
     'description': req.body.description,
-    'date':        new Date(req.body.year, req.body.month, req.body.day, req.body.hour, req.body.minutes, 0, 0).toISOString()
+    'date':        req.body.datetime
 
   }, function (err, areq, ares, obj) {
     if (err) {
@@ -98,7 +98,7 @@ app.post('/:id/edit', function (req, res, next) {
   }, {
     'title':       req.body.title,
     'description': req.body.description,
-    'date':        new Date(req.body.year, req.body.month, req.body.day, req.body.hour, req.body.minutes, 0, 0).toISOString()
+    'date':        req.body.datetime
 
   }, function (err, areq, ares, obj) {
     if (err) {

@@ -4,7 +4,12 @@ block contents
   .panel.panel-default
 
     .panel-heading
-      h4 Add Venue
+      h4
+        if edit
+          | Edit Venue &nbsp;
+          small= data.id
+        else
+          | Add Venue
 
     .panel-body
       form.form-horizontal(role="form" method="post" action=(edit ? "/venues/"+data.id+"/edit" : "/venues/new"))

@@ -4,7 +4,12 @@ block contents
   .panel.panel-default
 
     .panel-heading
-      h4 Add Document
+      h4
+        if edit
+          | Edit Document &nbsp;
+          small= data.id
+        else
+          | Add Document
 
     .panel-body
       form.form-horizontal(role="form" method="post" action=(edit ? "/documents/"+data.id+"/edit" : "/documents/new"))
